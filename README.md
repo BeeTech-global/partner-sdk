@@ -1,2 +1,2 @@
 # partner-sdk
-libs for partner use
+This repository holds all libs for partner use.
