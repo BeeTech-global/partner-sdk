@@ -12,6 +12,7 @@ Method of calculate local quote
 ``` typescript
 Quote = {
   quote_id: number,
+  direction: string,
   base_iso: string,
   quoted_iso: string,
   exchange_rate: number,
@@ -19,6 +20,7 @@ Quote = {
 
 QuoteLocal = {
   quote_id: number,
+  direction: string,
   base_iso: string,
   quoted_iso: string,
   amount: number,
