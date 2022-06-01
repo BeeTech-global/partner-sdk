@@ -1,53 +1,62 @@
-# quote-local
+# local-quote
+This SDK allows partners to quote for their customers without reaching RemessaOnline SaaS.
 
-## Objective
-Use quote features through a component to facilitate the abstraction of standard features.
+---
+### Methods
+`calculate(quote: Quote, amount:number) :LocalQuote`
 
-## API
-
-Method of calculate local quote
-
-`calculate(quote: Quote, amount:number) :QuoteLocal`
-
+### Custom Types
 ``` typescript
 Quote = {
-  quote_id: number,
+  id: number,
   direction: string,
-  base_iso: string,
-  quoted_iso: string,
-  exchange_rate: number,
+  baseCurrencyISO: string,
+  quotedCurrencyISO: string,
+  exchangeRate: number,
 }
 
-QuoteLocal = {
-  quote_id: number,
+LocalQuote = {
+  id: number,
   direction: string,
-  base_iso: string,
-  quoted_iso: string,
+  baseCurrencyISO: string,
+  quotedCurrencyISO: string,
   amount: number,
-  total_quoted_amount: number,
-  exchange_rate: number,
+  totalBaseAmount: number,
+  exchangeRate: number,
   tax: number,
 }
 ```
 
-### how this calculation done?
+### Currency Pair
+```
+A currency pair is defined by two ordered ISO-4217 (three letters) currencies: BASE/QUOTED
 
-IOF 0,38 is a default value for purpose = `INVESTMENT_IN_STOCKS_AND_OR_FUNDS`
-``` typescript
-const IOF = 0,38%;
+Examples:
+- The outbound case USD / BRL means we want to buy our base (USD) using, quoting by or selling BRL
+- The inbound case BRL / USD means we want to buy our base (BRL) using, quoting by or selling USD
 ```
 
-to calculate tax
+
+### Exchange Math
+
+IOF tax rate is always set at 0.38% of the value in BRL considering the operational purpose of `INVESTMENT_IN_STOCKS_AND_OR_FUNDS`
+
 ``` typescript
-const tax = amount + IOF;
+const IOF = 0.0038;
 ```
 
-to calculate BRL to USD
+Outbound calculation (USD/BRL)
 ``` typescript
-const total_quoted_amount = (amount - tax ) / exchangeRate;
+const totalBaseAmount = (quotedAmount * (1 - IOF)) / exchangeRate;
 ```
 
-to calculate USD to BRL
+Inbound calculation (BRL/USD)
 ``` typescript
-const total_quoted_amount = (amount - tax ) * exchangeRate;
+const totalBaseAmount = quotedAmount * exchangeRate * (1 - IOF);
 ```
+
+### Precision and Rounding
+* Amounts have two decimal places
+* Rates have six decimal places
+* Rounding rule is ROUND_HALF_EVEN
+* Rounding is only done right before attributions
