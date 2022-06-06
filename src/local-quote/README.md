@@ -48,10 +48,9 @@ LocalQuote = {
 A currency pair is defined by two ordered ISO-4217 (three letters) currencies: BASE/QUOTED
 
 Examples:
-- The outbound case USD / BRL means we want to buy our base (USD) using, quoting by or selling BRL
-- The inbound case BRL / USD means we want to buy our base (BRL) using, quoting by or selling USD
+- The outbound case BRL / USD means we want to buy the quoted currency (USD), converting from the base currency (BRL);
+- The inbound case USD / BRL means we want to buy the quoted currency (BRL), converting from the base currency (USD);
 ```
-
 
 ### Exchange Math
 
@@ -61,12 +60,12 @@ IOF tax rate is always set at 0.38% of the value in BRL considering the operatio
 const IOF = 0.0038;
 ```
 
-Outbound calculation (USD/BRL)
+Outbound calculation (BRL/USD)
 ``` typescript
 const totalBaseAmount = (quotedAmount * (1 - IOF)) / exchangeRate;
 ```
 
-Inbound calculation (BRL/USD)
+Inbound calculation (USD/BRL)
 ``` typescript
 const totalBaseAmount = quotedAmount * exchangeRate * (1 - IOF);
 ```

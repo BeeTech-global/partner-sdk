@@ -33,17 +33,13 @@ export default class QuoteCalculator {
 
     const {exchangeRate, direction} = quote
 
-    const roundedQuotedAmount = roundHalfEven(amount,2)
-
-    const roundedExchangeRate = roundHalfEven(exchangeRate,6)
-
     const totalBaseAmount = direction === Direction.OUTBOUND ?
-      this.outboundCalculator(roundedQuotedAmount, roundedExchangeRate) :
-      this.inboundCalculator(roundedQuotedAmount, roundedExchangeRate)
+      this.outboundCalculator(amount, exchangeRate) :
+      this.inboundCalculator(amount, exchangeRate)
 
     const localQuote: LocalQuote = {
       ...quote,
-      amount: roundedQuotedAmount,
+      amount: amount,
       totalBaseAmount,
       tax: IOF
     }
@@ -51,12 +47,12 @@ export default class QuoteCalculator {
     return localQuote
   }
 
-  private inboundCalculator(quotedAmount: number, exchangeRate: number): number  {
+  private outboundCalculator(quotedAmount: number, exchangeRate: number): number  {
     const totalBaseAmount = (quotedAmount * (1 - IOF)) / exchangeRate;
     return roundHalfEven(totalBaseAmount,2)
   }
 
-  private outboundCalculator(quotedAmount: number, exchangeRate: number): number {
+  private inboundCalculator(quotedAmount: number, exchangeRate: number): number {
     const totalBaseAmount = quotedAmount * exchangeRate * (1 - IOF);
     return roundHalfEven(totalBaseAmount,2)
   }
