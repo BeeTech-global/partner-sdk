@@ -1,7 +1,14 @@
 const settings = Object.freeze({
   taxes: {
-    IOF: {
-      value: 0.0038
+    inbound: {
+      IOF: {
+        value: 0
+      }
+    },
+    outbound: {
+      IOF: {
+        value: 0.0038
+      }
     }
   }
 })
