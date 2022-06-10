@@ -29,7 +29,8 @@ describe('Quote Calculator', () => {
         expect(localQuote).toEqual({
           ...request.quote,
           ...expectedResponse,
-          tax: settings.taxes.IOF.value,
+          tax: request.quote.direction === 'OUTBOUND' ?
+            settings.taxes.outbound.IOF.value : settings.taxes.inbound.IOF.value,
           amount: request.amount
         })
       })
