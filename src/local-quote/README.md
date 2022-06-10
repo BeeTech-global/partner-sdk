@@ -39,7 +39,7 @@ Examples:
 
 ### Exchange Math
 
-IOF tax rate is always set at 0.38% of the value in BRL considering the operational purpose of `INVESTMENT_IN_STOCKS_AND_OR_FUNDS`
+IOF tax rate is always set at 0.38% of the value in BRL considering the operational purpose of `CRYPTO`
 
 ``` typescript
 const IOF = 0.0038;
