@@ -1,0 +1,32 @@
+[
+  {
+    "request": {
+      "amount": 230,
+      "quote": {
+        "id": "quote_id",
+        "direction": "OUTBOUND",
+        "baseCurrencyISO": "BRL",
+        "quotedCurrencyISO": "USD",
+        "exchangeRate": 4.8782054211
+      }
+    },
+    "expectedResponse": {
+      "totalBaseAmount": 46.97
+    }
+  },
+  {
+    "request": {
+      "amount": 230,
+      "quote": {
+        "id": "quote_id",
+        "direction": "INBOUND",
+        "baseCurrencyISO": "USD",
+        "quotedCurrencyISO": "BRL",
+        "exchangeRate": 4.8782054211
+      }
+    },
+    "expectedResponse": {
+      "totalBaseAmount": 1117.72
+    }
+  }
+]

@@ -5,10 +5,26 @@ This SDK allows partners to quote for their customers without reaching RemessaOn
 ### Methods
 `calculate(quote: Quote, amount:number) :LocalQuote`
 
+### Example
+``` typescript
+import {quoteCalculator} from '@beetech/partner-sdk'
+
+const quote = {
+  id: '123e4567-e89b-12d3-a456-426655440000',
+  direction: 'OUTBOUND',
+  baseCurrencyISO: 'USD',
+  quotedCurrencyISO: 'BRL',
+  exchangeRate: 5.4,
+}
+
+const amount = 10000;
+
+const localQuote = quoteCalculator.calculate(quote, amount)
+```
 ### Custom Types
 ``` typescript
 Quote = {
-  id: number,
+  id: string, //uuid
   direction: string,
   baseCurrencyISO: string,
   quotedCurrencyISO: string,
@@ -16,7 +32,7 @@ Quote = {
 }
 
 LocalQuote = {
-  id: number,
+  id: string, //uuid
   direction: string,
   baseCurrencyISO: string,
   quotedCurrencyISO: string,
@@ -32,10 +48,9 @@ LocalQuote = {
 A currency pair is defined by two ordered ISO-4217 (three letters) currencies: BASE/QUOTED
 
 Examples:
-- The outbound case USD / BRL means we want to buy our base (USD) using, quoting by or selling BRL
-- The inbound case BRL / USD means we want to buy our base (BRL) using, quoting by or selling USD
+- The outbound case USD / BRL means we want to buy our base (USD) using, quoting by or selling (BRL)
+- The inbound case BRL / USD means we want to buy our base (BRL) using, quoting by or selling (USD)
 ```
-
 
 ### Exchange Math
 
