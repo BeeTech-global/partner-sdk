@@ -56,16 +56,22 @@ Examples:
 
 IOF tax rate is always set at 0.38% of the value in BRL considering the operational purpose of `CRYPTO`
 
+
+
+Outbound calculation (USD/BRL)
 ``` typescript
 const IOF = 0.0038;
 ```
 
-Outbound calculation (USD/BRL)
 ``` typescript
 const totalBaseAmount = (quotedAmount * (1 - IOF)) / exchangeRate;
 ```
 
 Inbound calculation (BRL/USD)
+``` typescript
+const IOF = 0;
+```
+
 ``` typescript
 const totalBaseAmount = quotedAmount * exchangeRate * (1 - IOF);
 ```
