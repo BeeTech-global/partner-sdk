@@ -56,7 +56,7 @@ export default class QuoteCalculator {
   }
 
   private inboundCalculator(quotedAmount: number, exchangeRate: number): number {
-    const totalBaseAmount = quotedAmount * exchangeRate * (1 - outboundIOF);
+    const totalBaseAmount = quotedAmount * exchangeRate * (1 - inboundIOF);
     return roundHalfEven(totalBaseAmount,2)
   }
 }
