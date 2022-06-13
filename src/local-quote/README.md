@@ -64,7 +64,7 @@ const IOF = 0.0038;
 ```
 
 ``` typescript
-const quotedAmount = (baseAmount * exchangeRate) / (1 - IOF)
+ const quotedAmount = (baseAmount * exchangeRate) * (1 + IOF)
 ```
 
 Inbound calculation (BRL/USD)
