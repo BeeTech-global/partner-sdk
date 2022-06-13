@@ -11,7 +11,7 @@
       }
     },
     "expectedResponse": {
-      "amount": 979.36,
+      "quotedAmount": 979.36,
       "totalBaseAmount": 200
     }
   },
@@ -27,7 +27,7 @@
       }
     },
     "expectedResponse": {
-      "amount": 230,
+      "quotedAmount": 230,
       "totalBaseAmount": 1121.99
     }
   }

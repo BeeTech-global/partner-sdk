@@ -19,7 +19,7 @@ type LocalQuote = {
   direction: string,
   baseCurrencyISO: string,
   quotedCurrencyISO: string,
-  amount: number,
+  quotedAmount: number,
   totalBaseAmount: number,
   exchangeRate: number,
   tax: number,
@@ -46,7 +46,7 @@ export default class QuoteCalculator {
 
     const localQuote: LocalQuote = {
       ...quote,
-      amount: quotedAmount,
+      quotedAmount,
       totalBaseAmount,
       tax: IOF
     }
