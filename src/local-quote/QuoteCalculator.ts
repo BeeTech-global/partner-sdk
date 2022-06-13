@@ -37,12 +37,16 @@ export default class QuoteCalculator {
     const IOF = direction === Direction.OUTBOUND ? outboundIOF : inboundIOF
 
     const totalBaseAmount = direction === Direction.OUTBOUND ?
-      this.outboundCalculator(amount, exchangeRate) :
+      amount :
       this.inboundCalculator(amount, exchangeRate)
+
+    const quotedAmount = direction === Direction.OUTBOUND ?
+      this.outboundCalculator(amount, exchangeRate) :
+      amount
 
     const localQuote: LocalQuote = {
       ...quote,
-      amount: amount,
+      amount: quotedAmount,
       totalBaseAmount,
       tax: IOF
     }
@@ -50,9 +54,9 @@ export default class QuoteCalculator {
     return localQuote
   }
 
-  private outboundCalculator(quotedAmount: number, exchangeRate: number): number  {
-    const totalBaseAmount = (quotedAmount * (1 - outboundIOF)) / exchangeRate;
-    return roundHalfEven(totalBaseAmount,2)
+  private outboundCalculator(baseAmount: number, exchangeRate: number): number  {
+    const totalQuotedAmount = (baseAmount * exchangeRate) / (1 - outboundIOF)
+    return roundHalfEven(totalQuotedAmount,2)
   }
 
   private inboundCalculator(quotedAmount: number, exchangeRate: number): number {

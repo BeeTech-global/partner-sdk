@@ -30,8 +30,8 @@ describe('Quote Calculator', () => {
           ...request.quote,
           ...expectedResponse,
           tax: request.quote.direction === 'OUTBOUND' ?
-            settings.taxes.outbound.IOF.value : settings.taxes.inbound.IOF.value,
-          amount: request.amount
+          settings.taxes.outbound.IOF.value : settings.taxes.inbound.IOF.value,
+
         })
       })
     })

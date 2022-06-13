@@ -1,7 +1,7 @@
 [
   {
     "request": {
-      "amount": 230,
+      "amount": 200,
       "quote": {
         "id": "quote_id",
         "direction": "OUTBOUND",
@@ -11,7 +11,8 @@
       }
     },
     "expectedResponse": {
-      "totalBaseAmount": 46.97
+      "amount": 979.36,
+      "totalBaseAmount": 200
     }
   },
   {
@@ -26,6 +27,7 @@
       }
     },
     "expectedResponse": {
+      "amount": 230,
       "totalBaseAmount": 1121.99
     }
   }
