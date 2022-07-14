@@ -1,0 +1,38 @@
+[
+  {
+    "request": {
+      "amount": 300,
+      "tax": 0.0038,
+      "quote": {
+        "id": "quote_id",
+        "direction": "OUTBOUND",
+        "purpose": "CRYPTO",
+        "baseCurrencyISO": "USD",
+        "quotedCurrencyISO": "BRL",
+        "exchangeRate": 5.360662
+      }
+    },
+    "expectedResponse": {
+      "quotedAmount": 55.75,
+      "totalBaseAmount": 300
+    }
+  },
+  {
+    "request": {
+      "amount": 200,
+      "tax": 0.0038,
+      "quote": {
+        "id": "quote_id",
+        "direction": "OUTBOUND",
+        "purpose": "PAYMENT_PROCESSING",
+        "baseCurrencyISO": "BRL",
+        "quotedCurrencyISO": "USD",
+        "exchangeRate": 4.8782054211
+      }
+    },
+    "expectedResponse": {
+      "quotedAmount": 979.35,
+      "totalBaseAmount": 200
+    }
+  }
+]

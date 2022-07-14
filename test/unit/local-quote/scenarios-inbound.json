@@ -1,26 +1,30 @@
 [
   {
     "request": {
-      "amount": 200,
+      "amount": 300,
+      "tax": 0,
       "quote": {
         "id": "quote_id",
-        "direction": "OUTBOUND",
+        "direction": "INBOUND",
+        "purpose": "CRYPTO",
         "baseCurrencyISO": "BRL",
         "quotedCurrencyISO": "USD",
-        "exchangeRate": 4.8782054211
+        "exchangeRate": 5.360662
       }
     },
     "expectedResponse": {
-      "quotedAmount": 979.35,
-      "totalBaseAmount": 200
+      "quotedAmount": 300,
+      "totalBaseAmount": 55.96
     }
   },
   {
     "request": {
       "amount": 230,
+      "tax": 0,
       "quote": {
         "id": "quote_id",
         "direction": "INBOUND",
+        "purpose": "PAYMENT_PROCESSING",
         "baseCurrencyISO": "USD",
         "quotedCurrencyISO": "BRL",
         "exchangeRate": 4.8782054211

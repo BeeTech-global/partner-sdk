@@ -1,39 +1,69 @@
-import QuoteCalculator, {Direction, Quote} from '../../../src/local-quote/QuoteCalculator'
-import settings from '../../../src/local-quote/settings'
-import scenario from './scenarios.json'
+import { Currencies, Direction, Purposes, Quote } from '../../../src/local-quote/Quote';
+import QuoteCalculator from '../../../src/local-quote/QuoteCalculator';
+import { InvalidDirectionExpection, UnsupportedPurposeExpection } from '../../../src/local-quote/errors';
 
-let quoteCalculator: QuoteCalculator
-
-let quote: Quote
 
 describe('Quote Calculator', () => {
-  describe('#calculate', () => {
 
-    beforeEach(()=>{
-      quoteCalculator = new QuoteCalculator()
-    })
+  it('return an exception if the direction is not correct', () => {
+    const amount = 300;
+    const quote: Quote = {
+      id: 'quote_id',
+      direction: 'WHATEVER' as Direction,
+      purpose: 'CRYPTO' as Purposes,
+      baseCurrencyISO: 'BRL' as Currencies,
+      quotedCurrencyISO: 'USD' as Currencies,
+      exchangeRate: 5.360662
+    }
 
-    describe.each(scenario)
-      ('$request.quote.direction, $request.quote.baseCurrencyISO: $request.amount, rate: $request.quote.exchangeRate ',
-      ({request, expectedResponse})  => {
+    const quoteCalculator = new QuoteCalculator();
+    expect(
+      () => quoteCalculator.calculate(quote, amount)
+    ).toThrow(InvalidDirectionExpection)
 
-      it('calculates local quote', () => {
+  });
 
-        const quote: Quote = {
-          ...request.quote,
-          direction: request.quote.direction as Direction
-        }
+  it('return an exception if the purpose is not correct', () => {
+    const amount = 300;
+    const quote: Quote = {
+      id: 'quote_id',
+      direction: 'INBOUND' as Direction,
+      purpose: 'WHATEVER' as Purposes,
+      baseCurrencyISO: 'BRL' as Currencies,
+      quotedCurrencyISO: 'USD' as Currencies,
+      exchangeRate: 5.360662
+    }
 
-        const localQuote = quoteCalculator.calculate(quote,request.amount)
+    const quoteCalculator = new QuoteCalculator();
+    expect(
+      () => quoteCalculator.calculate(quote, amount)
+    ).toThrow(UnsupportedPurposeExpection)
 
-        expect(localQuote).toEqual({
-          ...request.quote,
-          ...expectedResponse,
-          tax: request.quote.direction === 'OUTBOUND' ?
-          settings.taxes.outbound.IOF.value : settings.taxes.inbound.IOF.value,
+  });
 
-        })
-      })
-    })
-   })
-})
+  it('successfully return a quote', () => {
+    const amount = 200;
+    const quote: Quote = {
+      id: 'quote_id',
+      direction: 'OUTBOUND' as Direction,
+      purpose: 'PAYMENT_PROCESSING' as Purposes,
+      baseCurrencyISO: 'BRL' as Currencies,
+      quotedCurrencyISO: 'USD' as Currencies,
+      exchangeRate: 4.8782054211
+    }
+
+    const quoteCalculator = new QuoteCalculator();
+    expect(quoteCalculator.calculate(quote, amount)).toEqual({
+      id: 'quote_id',
+      direction: 'OUTBOUND',
+      purpose: 'PAYMENT_PROCESSING',
+      baseCurrencyISO: 'BRL',
+      quotedCurrencyISO: 'USD',
+      exchangeRate: 4.8782054211,
+      quotedAmount: 979.35,
+      totalBaseAmount: 200,
+      tax: 0.0038
+    });
+  });
+
+});
