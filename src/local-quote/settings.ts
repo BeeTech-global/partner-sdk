@@ -1,13 +1,27 @@
 const settings = Object.freeze({
   taxes: {
-    inbound: {
-      IOF: {
-        value: 0
+    CRYPTO: {
+      INBOUND: {
+        IOF: {
+          value: 0
+        }
+      },
+      OUTBOUND: {
+        IOF: {
+          value: 0.0038
+        }
       }
     },
-    outbound: {
-      IOF: {
-        value: 0.0038
+    PAYMENT_PROCESSING: {
+      INBOUND: {
+        IOF: {
+          value: 0
+        }
+      },
+      OUTBOUND: {
+        IOF: {
+          value: 0.0038
+        }
       }
     }
   }

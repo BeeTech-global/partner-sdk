@@ -1,67 +1,56 @@
+import InboundCalculator from "./adapters/InboundCalculator";
+import OutboundCalculator from "./adapters/OutboundCalculator";
+
+import { IQuoteCalculus, ICalculus, Direction, Purposes, Quote, LocalQuote, Currencies } from "./Quote";
+
+import {
+  DirectionNotAvailableExpection,
+  InvalidDirectionExpection,
+  UnsupportedPurposeExpection
+} from "./errors";
+
 import settings from "./settings";
-import { roundHalfEven } from "./utils";
 
-export enum Direction{
-  INBOUND='INBOUND',
-  OUTBOUND='OUTBOUND'
-}
+export default class QuoteCalculator implements IQuoteCalculus {
+  private calculus!: ICalculus;
 
-export type Quote = {
-  id: string,
-  direction: Direction.INBOUND | Direction.OUTBOUND,
-  baseCurrencyISO: string,
-  quotedCurrencyISO: string,
-  exchangeRate: number,
-}
+   buildAdapter(direction: Direction): void {
+    switch (direction) {
+      case Direction.INBOUND:
+        this.calculus = new InboundCalculator();
+        break;
 
-type LocalQuote = {
-  id: string,
-  direction: string,
-  baseCurrencyISO: string,
-  quotedCurrencyISO: string,
-  quotedAmount: number,
-  totalBaseAmount: number,
-  exchangeRate: number,
-  tax: number,
-}
+      case Direction.OUTBOUND:
+        this.calculus = new OutboundCalculator();
+        break;
 
-const outboundIOF = settings.taxes.outbound.IOF.value;
-const inboundIOF = settings.taxes.inbound.IOF.value;
-
-export default class QuoteCalculator {
+      default:
+        throw new InvalidDirectionExpection();
+    }
+  }
 
   calculate(quote: Quote, amount: number): LocalQuote {
+   const { direction, purpose } = quote;
+   this.buildAdapter(direction);
 
-    const {exchangeRate, direction} = quote
+   const tax = this.seekTaxesByPurpose(purpose, direction);
 
-    const IOF = direction === Direction.OUTBOUND ? outboundIOF : inboundIOF
+   return this.calculus.calculate(quote, amount, tax);
+  }
 
-    const totalBaseAmount = direction === Direction.OUTBOUND ?
-      amount :
-      this.inboundCalculator(amount, exchangeRate)
+  private seekTaxesByPurpose(purpose: Purposes, direction: Direction): number {
+    const purposeTaxes = settings.taxes[purpose];
 
-    const quotedAmount = direction === Direction.OUTBOUND ?
-      this.outboundCalculator(amount, exchangeRate) :
-      amount
-
-    const localQuote: LocalQuote = {
-      ...quote,
-      quotedAmount,
-      totalBaseAmount,
-      tax: IOF
+    if (!purposeTaxes) {
+      throw new UnsupportedPurposeExpection();
     }
 
-    return localQuote
-  }
+    const purposeTaxesDirection = purposeTaxes[direction];
 
-  private outboundCalculator(baseAmount: number, exchangeRate: number): number  {
-    const totalQuotedAmount = (baseAmount * exchangeRate) * (1 + outboundIOF)
-    return roundHalfEven(totalQuotedAmount,2)
-  }
+    if (!purposeTaxesDirection) {
+      throw new DirectionNotAvailableExpection();
+    }
 
-  private inboundCalculator(quotedAmount: number, exchangeRate: number): number {
-    const totalBaseAmount = quotedAmount * exchangeRate * (1 - inboundIOF);
-    return roundHalfEven(totalBaseAmount,2)
+    return purposeTaxesDirection.IOF.value;
   }
 }
-
