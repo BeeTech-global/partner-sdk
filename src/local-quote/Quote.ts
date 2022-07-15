@@ -16,10 +16,10 @@ export enum Currencies {
 
 export type Quote = {
   id: string,
-  direction: Direction.INBOUND | Direction.OUTBOUND,
-  purpose: Purposes,
-  baseCurrencyISO: Currencies,
-  quotedCurrencyISO: Currencies,
+  direction: string,
+  purpose: string,
+  baseCurrencyISO: string,
+  quotedCurrencyISO: string,
   exchangeRate: number,
 }
 
@@ -35,7 +35,7 @@ export type LocalQuote = {
 }
 
 export interface IQuoteCalculus {
-  buildAdapter(direction: Direction): void,
+  buildAdapter(direction: string): void,
   calculate(quote: Quote, amount: number): LocalQuote
 }
 

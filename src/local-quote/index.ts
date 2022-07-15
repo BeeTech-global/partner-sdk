@@ -1,3 +1,9 @@
 import QuoteCalculator from "./QuoteCalculator";
+import { Validation } from "./validation";
 
-export default new QuoteCalculator();
+const factoryQuoteCalulator = () => {
+  const validation = new Validation();
+  return new QuoteCalculator(validation);
+}
+
+export default factoryQuoteCalulator()
