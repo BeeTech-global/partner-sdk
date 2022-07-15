@@ -2,9 +2,41 @@
 This SDK allows partners to quote for their customers without reaching RemessaOnline SaaS.
 
 ---
+
+
+### Custom Types
+
+
+``` typescript
+Direction = 'INBOUND' | 'OUTBOUND'
+
+Purpose = 'CRYPTO' | 'PAYMENT_PROCESSING'
+
+CurrencyISO = 'USD' | 'BRL' | 'EUR'
+
+Quote = {
+  id: string, //uuid
+  direction: string, // Direction
+  purpose: string, // Purpose
+  baseCurrencyISO: string, // CurrencyISO
+  quotedCurrencyISO: string, // CurrencyISO
+  exchangeRate: number,
+}
+
+LocalQuote = {
+  id: string, //uuid
+  direction: string,
+  purpose: string,
+  baseCurrencyISO: string,
+  quotedCurrencyISO: string,
+  amount: number,
+  totalBaseAmount: number,
+  exchangeRate: number,
+  tax: number,
+}
+```
 ### Methods
 `calculate(quote: Quote, amount:number) :LocalQuote`
-
 ### Example
 ``` typescript
 import {quoteCalculator} from '@beetech/partner-sdk'
@@ -12,6 +44,7 @@ import {quoteCalculator} from '@beetech/partner-sdk'
 const quote = {
   id: '123e4567-e89b-12d3-a456-426655440000',
   direction: 'OUTBOUND',
+  purpose: 'CRYPTO',
   baseCurrencyISO: 'USD',
   quotedCurrencyISO: 'BRL',
   exchangeRate: 5.4,
@@ -21,27 +54,8 @@ const amount = 10000;
 
 const localQuote = quoteCalculator.calculate(quote, amount)
 ```
-### Custom Types
-``` typescript
-Quote = {
-  id: string, //uuid
-  direction: string,
-  baseCurrencyISO: string,
-  quotedCurrencyISO: string,
-  exchangeRate: number,
-}
 
-LocalQuote = {
-  id: string, //uuid
-  direction: string,
-  baseCurrencyISO: string,
-  quotedCurrencyISO: string,
-  amount: number,
-  totalBaseAmount: number,
-  exchangeRate: number,
-  tax: number,
-}
-```
+
 
 ### Currency Pair
 ```
@@ -54,11 +68,11 @@ Examples:
 
 ### Exchange Math
 
-IOF tax rate is always set at 0.38% of the value in BRL considering the operational purpose of `CRYPTO`
+IOF tax rate is always set at 0.38% of the value in BRL considering the operational purpose of `CRYPTO` and `PAYMENT_PROCESSING`
 
 
 
-Outbound calculation (USD/BRL)
+Outbound calculation indirect flow (sell USD to buy BRL)
 ``` typescript
 const IOF = 0.0038;
 ```
@@ -67,13 +81,31 @@ const IOF = 0.0038;
  const quotedAmount = (baseAmount * exchangeRate) * (1 + IOF)
 ```
 
-Inbound calculation (BRL/USD)
+Outbound calculation direct flow (sell BRL to buy USD)
+``` typescript
+const IOF = 0.0038;
+```
+
+``` typescript
+ const quotedAmount = (baseAmount / exchangeRate) * (1 - IOF)
+```
+
+Inbound calculation direct flow (sell BRL to buy USD)
 ``` typescript
 const IOF = 0;
 ```
 
 ``` typescript
 const baseAmount = quotedAmount * exchangeRate * (1 - IOF);
+```
+
+Inbound calculation indirect flow (sell USD to buy BRL)
+``` typescript
+const IOF = 0;
+```
+
+``` typescript
+const baseAmount = (quotedAmount / exchangeRate) * (1 - IOF);
 ```
 
 ### Precision and Rounding
