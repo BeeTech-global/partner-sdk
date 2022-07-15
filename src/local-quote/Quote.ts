@@ -26,6 +26,7 @@ export type Quote = {
 export type LocalQuote = {
   id: string,
   direction: string,
+  purpose: string,
   baseCurrencyISO: string,
   quotedCurrencyISO: string,
   quotedAmount: number,
