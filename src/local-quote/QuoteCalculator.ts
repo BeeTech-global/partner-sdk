@@ -39,7 +39,6 @@ export default class QuoteCalculator implements IQuoteCalculus {
    this.buildAdapter(direction);
 
    const error = this.validation.validate(quote);
-   console.log(error)
    if (error) {
     throw error;
    }
