@@ -2,14 +2,12 @@ import { Currencies, ICalculus, LocalQuote, Quote } from "../Quote";
 import { roundHalfEven } from "../utils";
 
 export default class OutboundCalculator implements ICalculus {
-
   calculate(quote: Quote, amount: number, tax: number): LocalQuote {
-    const totalBaseAmount = amount;
-    const quotedAmount = this.totalQuotedAmountCalculator(quote, amount, tax);
+    const totalBaseAmount = this.amountCalculator(quote, amount, tax);
 
     const localQuote = {
         ...quote,
-        quotedAmount,
+        quotedAmount: amount,
         totalBaseAmount,
         tax
     };
@@ -17,7 +15,7 @@ export default class OutboundCalculator implements ICalculus {
     return localQuote;
   }
 
-  private totalQuotedAmountCalculator(quote: Quote, amount: number, tax: number): number {
+  amountCalculator(quote: Quote, amount: number, tax: number): number {
     const { exchangeRate, quotedCurrencyISO } = quote;
 
     if (quotedCurrencyISO === Currencies.BRL) {
@@ -27,13 +25,13 @@ export default class OutboundCalculator implements ICalculus {
     return this.baseToQuotedCurrency(amount, exchangeRate, tax);
   }
 
-  baseToQuotedCurrency(amount: number, exchangeRate: number, tax: number): number {
-    const totalQuotedAmount = (amount * exchangeRate) * (1 + tax);
-    return roundHalfEven(totalQuotedAmount, 2);
+  quotedToBaseCurrency(amount: number, exchangeRate: number, tax: number): number {
+    const totalAmount = (amount / exchangeRate) * (1 - tax);
+    return roundHalfEven(totalAmount, 2);
   }
 
-  quotedToBaseCurrency(amount: number, exchangeRate: number, tax: number): number {
-    const totalQuotedAmount = (amount / exchangeRate) * (1 - tax);
-    return roundHalfEven(totalQuotedAmount, 2);
+  baseToQuotedCurrency(amount: number, exchangeRate: number, tax: number): number {
+    const totalAmount = (amount * exchangeRate) * (1 + tax);
+    return roundHalfEven(totalAmount, 2);
   }
 }
