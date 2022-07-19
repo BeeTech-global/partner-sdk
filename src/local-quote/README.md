@@ -87,7 +87,7 @@ const IOF = 0.0038;
 ```
 
 ``` typescript
-const totalAmount = (amount / exchangeRate) * (1 - IOF)
+const totalAmount = (amount / exchangeRate) * (1 + IOF)
 ```
 
 Inbound calculation direct flow (sell BRL to buy USD)

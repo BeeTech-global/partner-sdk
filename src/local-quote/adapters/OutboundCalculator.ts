@@ -31,7 +31,7 @@ export default class OutboundCalculator implements ICalculus {
   }
 
   baseToQuotedCurrency(amount: number, exchangeRate: number, tax: number): number {
-    const totalAmount = (amount / exchangeRate) * (1 - tax);
+    const totalAmount = (amount / exchangeRate) * (1 + tax);
     return roundHalfEven(totalAmount, 2);
   }
 }
