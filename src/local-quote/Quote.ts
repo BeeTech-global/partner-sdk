@@ -42,6 +42,7 @@ export interface IQuoteCalculus {
 
 export interface ICalculus {
   calculate(quote: Quote, amount: number, tax: number): LocalQuote
+  amountCalculator(quote: Quote, amount: number, tax: number): number
   quotedToBaseCurrency(amount: number, exchangeRate: number, tax: number): number
   baseToQuotedCurrency(amount: number, exchangeRate: number, tax: number): number
 }
