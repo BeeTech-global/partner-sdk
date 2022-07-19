@@ -72,22 +72,22 @@ IOF tax rate is always set at 0.38% of the value in BRL considering the operatio
 
 
 
-Outbound calculation indirect flow (sell USD to buy BRL)
-``` typescript
-const IOF = 0.0038;
-```
-
-``` typescript
- const quotedAmount = (baseAmount * exchangeRate) * (1 + IOF)
-```
-
 Outbound calculation direct flow (sell BRL to buy USD)
 ``` typescript
 const IOF = 0.0038;
 ```
 
 ``` typescript
- const quotedAmount = (baseAmount / exchangeRate) * (1 - IOF)
+const totalAmount = (amount * exchangeRate) * (1 + IOF)
+```
+
+Outbound calculation indirect flow (sell USD to buy BRL)
+``` typescript
+const IOF = 0.0038;
+```
+
+``` typescript
+const totalAmount = (amount / exchangeRate) * (1 - IOF)
 ```
 
 Inbound calculation direct flow (sell BRL to buy USD)
@@ -96,7 +96,7 @@ const IOF = 0;
 ```
 
 ``` typescript
-const baseAmount = quotedAmount * exchangeRate * (1 - IOF);
+const totalAmount = amount * exchangeRate * (1 - IOF);
 ```
 
 Inbound calculation indirect flow (sell USD to buy BRL)
@@ -105,7 +105,7 @@ const IOF = 0;
 ```
 
 ``` typescript
-const baseAmount = (quotedAmount / exchangeRate) * (1 - IOF);
+const totalAmount = (amount / exchangeRate) * (1 - IOF);
 ```
 
 ### Precision and Rounding
