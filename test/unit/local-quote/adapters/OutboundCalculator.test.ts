@@ -18,31 +18,19 @@ describe('Quote Calculator Outbound', () => {
       it('calculates local quote', () => {
 
         const {
-          quote: {
-            baseCurrencyISO,
-            quotedCurrencyISO,
-            direction,
-            purpose
-          },
+          quote,
           amount,
           tax
         } = request;
 
-        const quote: Quote = {
-          ...request.quote,
-          direction: direction as Direction,
-          purpose: purpose as Purposes,
-          baseCurrencyISO: baseCurrencyISO as Currencies,
-          quotedCurrencyISO: quotedCurrencyISO as Currencies
-        }
 
         const localQuote = quoteCalculator.calculate(quote, amount, tax)
 
         expect(localQuote).toEqual({
-          ...request.quote,
+          ...quote,
           ...expectedResponse,
           tax: 0.0038
-        })
+        });
       })
     })
    })

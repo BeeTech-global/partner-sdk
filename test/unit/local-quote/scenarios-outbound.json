@@ -7,14 +7,14 @@
         "id": "quote_id",
         "direction": "OUTBOUND",
         "purpose": "CRYPTO",
-        "baseCurrencyISO": "USD",
-        "quotedCurrencyISO": "BRL",
+        "baseCurrencyISO": "BRL",
+        "quotedCurrencyISO": "USD",
         "exchangeRate": 5.360662
       }
     },
     "expectedResponse": {
-      "quotedAmount": 55.75,
-      "totalBaseAmount": 300
+      "quotedAmount": 300,
+      "totalBaseAmount": 55.75
     }
   },
   {
@@ -25,14 +25,14 @@
         "id": "quote_id",
         "direction": "OUTBOUND",
         "purpose": "PAYMENT_PROCESSING",
-        "baseCurrencyISO": "BRL",
-        "quotedCurrencyISO": "USD",
+        "baseCurrencyISO": "USD",
+        "quotedCurrencyISO": "BRL",
         "exchangeRate": 4.8782054211
       }
     },
     "expectedResponse": {
-      "quotedAmount": 979.35,
-      "totalBaseAmount": 200
+      "quotedAmount": 200,
+      "totalBaseAmount": 979.35
     }
   }
 ]

@@ -48,7 +48,32 @@ describe('Quote Calculator', () => {
 
   });
 
-  it('successfully return a quote', () => {
+  it('successfully return a quote with quoted currency BRL', () => {
+    const amount = 200;
+    const quote = {
+      id: 'quote_id',
+      direction: 'OUTBOUND',
+      purpose: 'PAYMENT_PROCESSING',
+      baseCurrencyISO: 'USD',
+      quotedCurrencyISO: 'BRL',
+      exchangeRate: 4.8782054211
+    }
+
+    const quoteCalculator = new QuoteCalculator(validationSpy);
+    expect(quoteCalculator.calculate(quote, amount)).toEqual({
+      id: 'quote_id',
+      direction: 'OUTBOUND',
+      purpose: 'PAYMENT_PROCESSING',
+      baseCurrencyISO: 'USD',
+      quotedCurrencyISO: 'BRL',
+      exchangeRate: 4.8782054211,
+      quotedAmount: 200,
+      totalBaseAmount: 979.35,
+      tax: 0.0038
+    });
+  });
+
+  it('successfully return a quote with quoted currency USD', () => {
     const amount = 200;
     const quote = {
       id: 'quote_id',
@@ -67,8 +92,8 @@ describe('Quote Calculator', () => {
       baseCurrencyISO: 'BRL',
       quotedCurrencyISO: 'USD',
       exchangeRate: 4.8782054211,
-      quotedAmount: 979.35,
-      totalBaseAmount: 200,
+      quotedAmount: 200,
+      totalBaseAmount: 40.84,
       tax: 0.0038
     });
   });
