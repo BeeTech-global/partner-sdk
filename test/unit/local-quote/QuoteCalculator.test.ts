@@ -68,7 +68,7 @@ describe('Quote Calculator', () => {
       quotedCurrencyISO: 'BRL',
       exchangeRate: 4.8782054211,
       quotedAmount: 200,
-      totalBaseAmount: 979.35,
+      totalBaseAmount: 40.84,
       tax: 0.0038
     });
   });
@@ -93,7 +93,7 @@ describe('Quote Calculator', () => {
       quotedCurrencyISO: 'USD',
       exchangeRate: 4.8782054211,
       quotedAmount: 200,
-      totalBaseAmount: 41.15,
+      totalBaseAmount: 979.35,
       tax: 0.0038
     });
   });
