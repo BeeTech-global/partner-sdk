@@ -78,7 +78,7 @@ const IOF = 0.0038;
 ```
 
 ``` typescript
-const totalAmount = (amount * exchangeRate) * (1 + IOF)
+const totalAmount = (amount / exchangeRate) * (1 - tax);
 ```
 
 Outbound calculation indirect flow (sell USD to buy BRL)
@@ -87,7 +87,7 @@ const IOF = 0.0038;
 ```
 
 ``` typescript
-const totalAmount = (amount / exchangeRate) * (1 + IOF)
+const totalAmount = (amount * exchangeRate) * (1 + tax);
 ```
 
 Inbound calculation direct flow (sell BRL to buy USD)
@@ -96,7 +96,7 @@ const IOF = 0;
 ```
 
 ``` typescript
-const totalAmount = amount * exchangeRate * (1 - IOF);
+const totalAmount = (amount / exchangeRate) * (1 - tax);
 ```
 
 Inbound calculation indirect flow (sell USD to buy BRL)
@@ -105,7 +105,7 @@ const IOF = 0;
 ```
 
 ``` typescript
-const totalAmount = (amount / exchangeRate) * (1 - IOF);
+const totalAmount = amount * exchangeRate * (1 - tax);
 ```
 
 ### Precision and Rounding
