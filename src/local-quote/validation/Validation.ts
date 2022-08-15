@@ -1,4 +1,4 @@
-import { InvalidParamExpection } from "../errors";
+import { InvalidParamException } from "../errors";
 import { Currencies, Direction, Purposes } from "../Quote";
 
 export interface IValidation {
@@ -20,11 +20,11 @@ export default class Validation implements IValidation {
     const directions = Object.keys(Direction);
 
     if (!directions.includes(direction)) {
-      return new InvalidParamExpection('Only direction are supported INBOUND/OUTBOUND');
+      return new InvalidParamException('Only direction are supported INBOUND/OUTBOUND');
     }
 
     if (!purposes.includes(purpose)) {
-      return new InvalidParamExpection('Only purposes are supported CRYPTO/PAYMENT_PROCESSING');
+      return new InvalidParamException('Only purposes are supported CRYPTO/PAYMENT_PROCESSING');
     }
 
     if (
@@ -32,7 +32,7 @@ export default class Validation implements IValidation {
       ||
       !currencies.includes(quotedCurrencyISO)
     ) {
-      return new InvalidParamExpection('Only currencies are supported BRL/USD/EUR');
+      return new InvalidParamException('Only currencies are supported BRL/USD/EUR');
     }
 
     return null;

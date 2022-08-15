@@ -4,9 +4,9 @@ import OutboundCalculator from "./adapters/OutboundCalculator";
 import { IQuoteCalculus, ICalculus, Direction, Purposes, Quote, LocalQuote } from "./Quote";
 
 import {
-  DirectionNotAvailableExpection,
-  InvalidDirectionExpection,
-  UnsupportedPurposeExpection,
+  DirectionNotAvailableException,
+  InvalidDirectionException,
+  UnsupportedPurposeException,
 } from "./errors";
 
 import settings from "./settings";
@@ -30,7 +30,7 @@ export default class QuoteCalculator implements IQuoteCalculus {
         break;
 
       default:
-        throw new InvalidDirectionExpection();
+        throw new InvalidDirectionException();
     }
   }
 
@@ -52,13 +52,13 @@ export default class QuoteCalculator implements IQuoteCalculus {
     const purposeTaxes = settings.taxes[purpose as Purposes]
 
     if (!purposeTaxes) {
-      throw new UnsupportedPurposeExpection();
+      throw new UnsupportedPurposeException();
     }
 
     const purposeTaxesDirection = purposeTaxes[direction as Direction];
 
     if (!purposeTaxesDirection) {
-      throw new DirectionNotAvailableExpection();
+      throw new DirectionNotAvailableException();
     }
 
     return purposeTaxesDirection.IOF.value;
