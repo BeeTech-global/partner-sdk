@@ -58,7 +58,7 @@
     ]
   },
   "dependencies": {
-    "bignumber.js": "9.0.2"
+    "bignumber.js": "^9.0.1"
   },
   "publishConfig": {
     "access": "public"

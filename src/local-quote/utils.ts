@@ -6,15 +6,42 @@ enum NumberPrecisionConfig {
   ERRORS = 'ERRORS',
 }
 
-export const roundHalfEven = (amount: number, precision = 2): number => {
+export default class PrecisionNumber {
+  readonly precisionDefault = 6;
 
-  const config = {
-    [NumberPrecisionConfig.DECIMAL_PLACES]: precision,
-    [NumberPrecisionConfig.ROUNDING_MODE]: BigNumber.ROUND_HALF_EVEN,
-    [NumberPrecisionConfig.ERRORS]: false,
-  };
+  readonly precisionMoney = 2;
 
-  BigNumber.config(config);
+  readonly precisionExchangeRate = 10;
 
-  return new BigNumber(amount, 10).toNumber();
+  truncateMoney(value: number): number {
+    return this.numberPrecision(value, this.precisionMoney).toNumber();
+  }
+
+  truncate(value: number): number {
+    return this.numberPrecision(value, this.precisionDefault).toNumber();
+  }
+
+  truncateExchangeRate(value: number): number {
+    return this.numberPrecision(value, this.precisionExchangeRate).toNumber();
+  }
+
+  moneyPrecision(value: number): BigNumber {
+    return this.numberPrecision(value, this.precisionMoney);
+  }
+
+  exchangeRatePrecision(value: number): BigNumber {
+    return this.numberPrecision(value, this.precisionExchangeRate);
+  }
+
+  numberPrecision(n: number, decimalPlaces = 6): BigNumber {
+    const config = {
+      [NumberPrecisionConfig.DECIMAL_PLACES]: decimalPlaces,
+      [NumberPrecisionConfig.ROUNDING_MODE]: BigNumber.ROUND_HALF_EVEN,
+      [NumberPrecisionConfig.ERRORS]: false,
+    };
+
+    BigNumber.config(config);
+
+    return new BigNumber(n, 10);
+  }
 }

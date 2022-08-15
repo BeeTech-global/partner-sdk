@@ -1,12 +1,20 @@
 import QuoteCalculator from '../../../src/local-quote/QuoteCalculator';
-import { InvalidDirectionExpection, InvalidParamExpection, UnsupportedPurposeExpection } from '../../../src/local-quote/errors';
+import {
+  InvalidDirectionException,
+  InvalidParamException,
+  UnsupportedPurposeException,
+} from '../../../src/local-quote/errors';
 
 
-describe('Quote Calculator', () => {
+describe('Local Quote Calculator', () => {
 
   const validationSpy = {
     validate: jest.fn().mockReturnValue(null)
-  }
+  };
+
+  const validationSpyInvalidParamException = {
+    validate: jest.fn().mockReturnValue(new InvalidParamException('error'))
+  };
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -26,96 +34,340 @@ describe('Quote Calculator', () => {
     const quoteCalculator = new QuoteCalculator(validationSpy);
     expect(
       () => quoteCalculator.calculate(quote, amount)
-    ).toThrow(InvalidDirectionExpection)
+    ).toThrow(InvalidDirectionException)
 
   });
 
-  it('return an exception if the purpose is not correct', () => {
-    const amount = 300;
-    const quote = {
-      id: 'quote_id',
-      direction: 'INBOUND',
-      purpose: 'WHATEVER',
-      baseCurrencyISO: 'BRL',
-      quotedCurrencyISO: 'USD',
-      exchangeRate: 5.360662
-    }
+  describe('OUTBOUND', () => {
 
-    const quoteCalculator = new QuoteCalculator(validationSpy);
-    expect(
-      () => quoteCalculator.calculate(quote, amount)
-    ).toThrow(UnsupportedPurposeExpection)
+    it.each([
+      [
+        37115782.22,
+        'PAYMENT_PROCESSING',
+        5.128314,
+        191064682.85,
+        0.0038
+      ],
+      [
+        92455.98,
+        'PAYMENT_PROCESSING',
+        5.136354,
+        476691.21,
+        0.0038
+      ],
+      [
+        3681.20,
+        'PAYMENT_PROCESSING',
+        5.1354495,
+        18976.46,
+        0.0038
+      ],
+      [
+        500,
+        'PAYMENT_PROCESSING',
+        5.134344,
+        2576.93,
+        0.0038
+      ],
+      [
+        200,
+        'PAYMENT_PROCESSING',
+        5.134344,
+        1030.77,
+        0.0038
+      ]
+    ])('USD/BRL Direct', async (
+      amount: number,
+      purpose: string,
+      exchangeRate: number,
+      totalBaseAmount: number,
+      tax,
+    ) => {
+      const quote = {
+        id: 'quote_id',
+        direction: 'OUTBOUND',
+        purpose: purpose,
+        baseCurrencyISO: 'BRL',
+        quotedCurrencyISO: 'USD',
+        exchangeRate: exchangeRate
+      }
 
-  });
+      const quoteCalculator = new QuoteCalculator(validationSpy);
+      expect(quoteCalculator.calculate(quote, amount)).toEqual({
+        id: quote.id,
+        direction: quote.direction,
+        purpose: quote.purpose,
+        baseCurrencyISO: quote.baseCurrencyISO,
+        quotedCurrencyISO: quote.quotedCurrencyISO,
+        exchangeRate: quote.exchangeRate,
+        quotedAmount: amount,
+        totalBaseAmount: totalBaseAmount,
+        tax: tax
+      });
 
-  it('successfully return a quote with quoted currency BRL', () => {
-    const amount = 200;
-    const quote = {
-      id: 'quote_id',
-      direction: 'OUTBOUND',
-      purpose: 'PAYMENT_PROCESSING',
-      baseCurrencyISO: 'USD',
-      quotedCurrencyISO: 'BRL',
-      exchangeRate: 4.8782054211
-    }
-
-    const quoteCalculator = new QuoteCalculator(validationSpy);
-    expect(quoteCalculator.calculate(quote, amount)).toEqual({
-      id: 'quote_id',
-      direction: 'OUTBOUND',
-      purpose: 'PAYMENT_PROCESSING',
-      baseCurrencyISO: 'USD',
-      quotedCurrencyISO: 'BRL',
-      exchangeRate: 4.8782054211,
-      quotedAmount: 200,
-      totalBaseAmount: 40.84,
-      tax: 0.0038
     });
-  });
 
-  it('successfully return a quote with quoted currency USD', () => {
-    const amount = 200;
-    const quote = {
-      id: 'quote_id',
-      direction: 'OUTBOUND',
-      purpose: 'PAYMENT_PROCESSING',
-      baseCurrencyISO: 'BRL',
-      quotedCurrencyISO: 'USD',
-      exchangeRate: 4.8782054211
-    }
+    it.each([
+      [
+        37115782.22,
+        'PAYMENT_PROCESSING',
+        5.1319320023,
+        7204942.73,
+        0.0038
+      ],
+      [
+        92455.98,
+        'PAYMENT_PROCESSING',
+        5.1329365059,
+        17944.11,
+        0.0038
+      ],
+      [
+        3681.20,
+        'PAYMENT_PROCESSING',
+        5.1329177215,
+        714.46,
+        0.0038
+      ],
+      [
+        500,
+        'PAYMENT_PROCESSING',
+        5.1330089929,
+        97.04,
+        0.0038
+      ],
+      [
+        200,
+        'PAYMENT_PROCESSING',
+        5.1311583072,
+        38.83,
+        0.0038
+      ],
+    ])('USD/BRL Inverse', async (
+      amount: number,
+      purpose: string,
+      exchangeRate: number,
+      totalBaseAmount: number,
+      tax,
+    ) => {
+      const quote = {
+        id: 'quote_id',
+        direction: 'OUTBOUND',
+        purpose: purpose,
+        baseCurrencyISO: 'USD',
+        quotedCurrencyISO: 'BRL',
+        exchangeRate: exchangeRate
+      }
 
-    const quoteCalculator = new QuoteCalculator(validationSpy);
-    expect(quoteCalculator.calculate(quote, amount)).toEqual({
-      id: 'quote_id',
-      direction: 'OUTBOUND',
-      purpose: 'PAYMENT_PROCESSING',
-      baseCurrencyISO: 'BRL',
-      quotedCurrencyISO: 'USD',
-      exchangeRate: 4.8782054211,
-      quotedAmount: 200,
-      totalBaseAmount: 979.35,
-      tax: 0.0038
+      const quoteCalculator = new QuoteCalculator(validationSpy);
+      expect(quoteCalculator.calculate(quote, amount)).toEqual({
+        id: quote.id,
+        direction: quote.direction,
+        purpose: quote.purpose,
+        baseCurrencyISO: quote.baseCurrencyISO,
+        quotedCurrencyISO: quote.quotedCurrencyISO,
+        exchangeRate: quote.exchangeRate,
+        quotedAmount: amount,
+        totalBaseAmount: totalBaseAmount,
+        tax: tax
+      });
+
     });
+
+    it('throw an exception when the purpose is invalid', () => {
+      const amount = 300;
+      const quote = {
+        id: 'quote_id',
+        direction: 'OUTBOUND',
+        purpose: 'WHATEVER',
+        baseCurrencyISO: 'BRL',
+        quotedCurrencyISO: 'USD',
+        exchangeRate: 5.360662
+      }
+
+      const quoteCalculator = new QuoteCalculator(validationSpy);
+      expect(
+        () => quoteCalculator.calculate(quote, amount)
+      ).toThrow(UnsupportedPurposeException)
+
+    });
+
+    it('throw an exception when quotedCurrencyISO is invalid', () => {
+      const amount = 300;
+      const quote = {
+        id: 'quote_id',
+        direction: 'OUTBOUND',
+        purpose: 'PAYMENT_PROCESSING',
+        baseCurrencyISO: 'BRL',
+        quotedCurrencyISO: 'XXX',
+        exchangeRate: 5.360662
+      }
+
+      const quoteCalculator = new QuoteCalculator(validationSpyInvalidParamException);
+      expect(
+       () => quoteCalculator.calculate(quote, amount)
+      ).toThrow(new InvalidParamException('error'))
+
+    });
+
   });
 
-  it('return an exception if validation is not correct', () => {
-    const amount = 300;
-    const quote = {
-      id: 'quote_id',
-      direction: 'INBOUND',
-      purpose: 'PAYMENT_PROCESSING',
-      baseCurrencyISO: 'BRL',
-      quotedCurrencyISO: 'AUD',
-      exchangeRate: 5.360662
-    }
+  describe('INBOUND', () => {
 
-    jest.spyOn(validationSpy, 'validate').mockReturnValue(new InvalidParamExpection('error'));
+    it.each([
+      [
+        92455.98,
+        'CRYPTO',
+        4.9957629246,
+        18506.88,
+        0
+      ],
+      [
+        3681.20,
+        'CRYPTO',
+        4.9912545936,
+        737.53,
+        0
+      ],
+      [
+        500,
+        'CRYPTO',
+        4.9860395464,
+        100.28,
+        0
+      ],
+      [
+        200,
+        'CRYPTO',
+        4.9850451268,
+        40.12,
+        0
+      ],
+    ])('USD/BRL Direct', async (
+      amount: number,
+      purpose: string,
+      exchangeRate: number,
+      totalBaseAmount: number,
+      tax,
+    ) => {
+      const quote = {
+        id: 'quote_id',
+        direction: 'INBOUND',
+        purpose: purpose,
+        baseCurrencyISO: 'USD',
+        quotedCurrencyISO: 'BRL',
+        exchangeRate: exchangeRate
+      }
 
-    const quoteCalculator = new QuoteCalculator(validationSpy);
-    expect(
-     () => quoteCalculator.calculate(quote, amount)
-    ).toThrow(new InvalidParamExpection('error'))
+      const quoteCalculator = new QuoteCalculator(validationSpy);
+      expect(quoteCalculator.calculate(quote, amount)).toEqual({
+        id: quote.id,
+        direction: quote.direction,
+        purpose: quote.purpose,
+        baseCurrencyISO: quote.baseCurrencyISO,
+        quotedCurrencyISO: quote.quotedCurrencyISO,
+        exchangeRate: quote.exchangeRate,
+        quotedAmount: amount,
+        totalBaseAmount: totalBaseAmount,
+        tax: tax
+      });
+
+    });
+
+    it.each([
+      [
+        92455.98,
+        'CRYPTO',
+        5.0431575,
+        466270.07,
+        0
+      ],
+      [
+        3681.20,
+        'CRYPTO',
+        5.04465,
+        18570.37,
+        0
+      ],
+      [
+        500,
+        'CRYPTO',
+        5.041466,
+        2520.73,
+        0
+      ],
+      [
+        200,
+        'CRYPTO',
+        5.0421625,
+        1008.43,
+        0
+      ],
+    ])('USD/BRL Inverse', async (
+      amount: number,
+      purpose: string,
+      exchangeRate: number,
+      totalBaseAmount: number,
+      tax,
+    ) => {
+      const quote = {
+        id: 'quote_id',
+        direction: 'INBOUND',
+        purpose: purpose,
+        baseCurrencyISO: 'BRL',
+        quotedCurrencyISO: 'USD',
+        exchangeRate: exchangeRate
+      }
+
+      const quoteCalculator = new QuoteCalculator(validationSpy);
+      expect(quoteCalculator.calculate(quote, amount)).toEqual({
+        id: quote.id,
+        direction: quote.direction,
+        purpose: quote.purpose,
+        baseCurrencyISO: quote.baseCurrencyISO,
+        quotedCurrencyISO: quote.quotedCurrencyISO,
+        exchangeRate: quote.exchangeRate,
+        quotedAmount: amount,
+        totalBaseAmount: totalBaseAmount,
+        tax: tax
+      });
+
+    });
+
+    it('throw an exception when the purpose is invalid', () => {
+      const amount = 300;
+      const quote = {
+        id: 'quote_id',
+        direction: 'INBOUND',
+        purpose: 'WHATEVER',
+        baseCurrencyISO: 'BRL',
+        quotedCurrencyISO: 'USD',
+        exchangeRate: 5.360662
+      }
+
+      const quoteCalculator = new QuoteCalculator(validationSpy);
+      expect(
+        () => quoteCalculator.calculate(quote, amount)
+      ).toThrow(UnsupportedPurposeException)
+
+    });
+
+    it('throw an exception when quotedCurrencyISO is invalid', () => {
+      const amount = 300;
+      const quote = {
+        id: 'quote_id',
+        direction: 'INBOUND',
+        purpose: 'PAYMENT_PROCESSING',
+        baseCurrencyISO: 'BRL',
+        quotedCurrencyISO: 'XXX',
+        exchangeRate: 5.360662
+      }
+
+      const quoteCalculator = new QuoteCalculator(validationSpyInvalidParamException);
+      expect(
+       () => quoteCalculator.calculate(quote, amount)
+      ).toThrow(new InvalidParamException('error'))
+    });
 
   });
-
 });

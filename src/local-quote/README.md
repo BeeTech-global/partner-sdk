@@ -1,11 +1,17 @@
+
 # local-quote
+
 This SDK allows partners to quote for their customers without reaching RemessaOnline SaaS.
+
+</br>
 
 ---
 
+</br>
 
-### Custom Types
+## Custom Types
 
+</br>
 
 ``` typescript
 Direction = 'INBOUND' | 'OUTBOUND'
@@ -35,9 +41,21 @@ LocalQuote = {
   tax: number,
 }
 ```
-### Methods
+
+</br>
+
+---
+
+</br>
+
+## **Methods**
+
+</br>
+
 `calculate(quote: Quote, amount:number) :LocalQuote`
-### Example
+
+Example:
+
 ``` typescript
 import {quoteCalculator} from '@beetech/partner-sdk'
 
@@ -55,61 +73,108 @@ const amount = 10000;
 const localQuote = quoteCalculator.calculate(quote, amount)
 ```
 
+</br>
 
+---
 
-### Currency Pair
-```
-A currency pair is defined by two ordered ISO-4217 (three letters) currencies: BASE/QUOTED
+</br>
+
+## **Currency Pair**
+
+</br>
+
+A currency pair is defined by two ordered ISO-4217 (three letters) currencies: BASE/QUOTED.
 
 Examples:
-- The outbound case USD / BRL means we want to buy our base (USD) using, quoting by or selling (BRL)
-- The inbound case BRL / USD means we want to buy our base (BRL) using, quoting by or selling (USD)
-```
 
-### Exchange Math
+- The outbound case USD / BRL means we want to buy our base (USD) using, quoting by or selling (BRL).
+- The inbound case BRL / USD means we want to buy our base (BRL) using, quoting by or selling (USD).
 
-IOF tax rate is always set at 0.38% of the value in BRL considering the operational purpose of `CRYPTO` and `PAYMENT_PROCESSING`
+</br>
 
+---
 
+</br>
 
-Outbound calculation direct flow (sell BRL to buy USD)
+## **Exchange math for outbound**
+
+</br>
+
+### **IOF**
+
+IOF tax rate is set at 0.38% of the value in BRL.
+
 ``` typescript
 const IOF = 0.0038;
 ```
 
-``` typescript
-const totalAmount = (amount / exchangeRate) * (1 - tax);
-```
+</br>
 
-Outbound calculation indirect flow (sell USD to buy BRL)
-``` typescript
-const IOF = 0.0038;
-```
+### **Outbound - direct flow**
+
+In the direct flow, the value of USD is known and the BRL value needs to be found.
 
 ``` typescript
 const totalAmount = (amount * exchangeRate) * (1 + tax);
 ```
 
-Inbound calculation direct flow (sell BRL to buy USD)
+</br>
+
+### **Outbound - inverse flow**
+
+In the inverse flow, the value of BRL is known and the value in USD needs to be found.
+
+``` typescript
+const totalAmount = (amount / (exchangeRate * (1 + tax)));
+```
+
+</br>
+
+---
+
+</br>
+
+## **Exchange math for inbound**
+
+</br>
+
+### **IOF**
+
+IOF tax rate is set at 0% of the value.
+
 ``` typescript
 const IOF = 0;
 ```
+
+</br>
+
+### **Inbound - direct flow**
+
+In the direct flow, the value of BRL is known and the value in USD must be found.
 
 ``` typescript
 const totalAmount = (amount / exchangeRate) * (1 - tax);
 ```
 
-Inbound calculation indirect flow (sell USD to buy BRL)
-``` typescript
-const IOF = 0;
-```
+</br>
+
+### **Inbound - inverse flow**
+
+In the inverse flow, the value of USD is known and the value in BRL needs to be found.
 
 ``` typescript
 const totalAmount = amount * exchangeRate * (1 - tax);
 ```
 
-### Precision and Rounding
-* Amounts have two decimal places
-* Rates have six decimal places
-* Rounding rule is ROUND_HALF_EVEN
-* Rounding is only done right before attributions
+</br>
+
+---
+
+</br>
+
+### **Precision and Rounding**
+
+- Amounts have two decimal places.
+- Rates have six decimal places.
+- Rounding rule is ROUND_HALF_EVEN.
+- Rounding is only done right before attributions.

@@ -1,4 +1,4 @@
-import { InvalidParamExpection } from "../../../../src/local-quote/errors";
+import { InvalidParamException } from "../../../../src/local-quote/errors";
 import Validation from "../../../../src/local-quote/validation/Validation";
 
 
@@ -17,7 +17,7 @@ describe('Validation', () => {
     const validation = new Validation();
     expect(
       validation.validate(quote)
-    ).toEqual(new InvalidParamExpection('Only direction are supported INBOUND/OUTBOUND'));
+    ).toEqual(new InvalidParamException('Only direction are supported INBOUND/OUTBOUND'));
   });
 
   it('return an exception if the purpose is not supported', () => {
@@ -33,7 +33,7 @@ describe('Validation', () => {
     const validation = new Validation();
     expect(
       validation.validate(quote)
-    ).toEqual(new InvalidParamExpection('Only purposes are supported CRYPTO/PAYMENT_PROCESSING'));
+    ).toEqual(new InvalidParamException('Only purposes are supported CRYPTO/PAYMENT_PROCESSING'));
   });
 
   it('return an exception if the baseCurrencyISO is not supported', () => {
@@ -49,7 +49,7 @@ describe('Validation', () => {
     const validation = new Validation();
     expect(
       validation.validate(quote)
-    ).toEqual(new InvalidParamExpection('Only currencies are supported BRL/USD/EUR'));
+    ).toEqual(new InvalidParamException('Only currencies are supported BRL/USD/EUR'));
   });
 
   it('return an exception if the quotedCurrencyISO is not supported', () => {
@@ -65,7 +65,7 @@ describe('Validation', () => {
     const validation = new Validation();
     expect(
       validation.validate(quote)
-    ).toEqual(new InvalidParamExpection('Only currencies are supported BRL/USD/EUR'));
+    ).toEqual(new InvalidParamException('Only currencies are supported BRL/USD/EUR'));
   });
 
   it('return null if all validation passes', () => {
