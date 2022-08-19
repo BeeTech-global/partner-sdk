@@ -28,7 +28,8 @@ describe('Local Quote Calculator', () => {
       purpose: 'CRYPTO',
       baseCurrencyISO: 'BRL',
       quotedCurrencyISO: 'USD',
-      exchangeRate: 5.360662
+      exchangeRate: 5.360662,
+      spread: 0.5,
     }
 
     const quoteCalculator = new QuoteCalculator(validationSpy);
@@ -89,7 +90,8 @@ describe('Local Quote Calculator', () => {
         purpose: purpose,
         baseCurrencyISO: 'BRL',
         quotedCurrencyISO: 'USD',
-        exchangeRate: exchangeRate
+        exchangeRate: exchangeRate,
+        spread: 0.5,
       }
 
       const quoteCalculator = new QuoteCalculator(validationSpy);
@@ -102,7 +104,8 @@ describe('Local Quote Calculator', () => {
         exchangeRate: quote.exchangeRate,
         quotedAmount: amount,
         totalBaseAmount: totalBaseAmount,
-        tax: tax
+        tax: tax,
+        spread: quote.spread
       });
 
     });
@@ -118,7 +121,7 @@ describe('Local Quote Calculator', () => {
       [
         92455.98,
         'PAYMENT_PROCESSING',
-        5.1329365059,
+        5.132936506,
         17944.11,
         0.0038
       ],
@@ -156,7 +159,8 @@ describe('Local Quote Calculator', () => {
         purpose: purpose,
         baseCurrencyISO: 'USD',
         quotedCurrencyISO: 'BRL',
-        exchangeRate: exchangeRate
+        exchangeRate: exchangeRate,
+        spread: 0.5,
       }
 
       const quoteCalculator = new QuoteCalculator(validationSpy);
@@ -169,7 +173,8 @@ describe('Local Quote Calculator', () => {
         exchangeRate: quote.exchangeRate,
         quotedAmount: amount,
         totalBaseAmount: totalBaseAmount,
-        tax: tax
+        tax: tax,
+        spread: quote.spread
       });
 
     });
@@ -182,7 +187,8 @@ describe('Local Quote Calculator', () => {
         purpose: 'WHATEVER',
         baseCurrencyISO: 'BRL',
         quotedCurrencyISO: 'USD',
-        exchangeRate: 5.360662
+        exchangeRate: 5.360662,
+        spread: 0.5,
       }
 
       const quoteCalculator = new QuoteCalculator(validationSpy);
@@ -200,7 +206,8 @@ describe('Local Quote Calculator', () => {
         purpose: 'PAYMENT_PROCESSING',
         baseCurrencyISO: 'BRL',
         quotedCurrencyISO: 'XXX',
-        exchangeRate: 5.360662
+        exchangeRate: 5.360662,
+        spread: 0.5,
       }
 
       const quoteCalculator = new QuoteCalculator(validationSpyInvalidParamException);
@@ -256,7 +263,8 @@ describe('Local Quote Calculator', () => {
         purpose: purpose,
         baseCurrencyISO: 'USD',
         quotedCurrencyISO: 'BRL',
-        exchangeRate: exchangeRate
+        exchangeRate: exchangeRate,
+        spread: 0.5,
       }
 
       const quoteCalculator = new QuoteCalculator(validationSpy);
@@ -269,7 +277,8 @@ describe('Local Quote Calculator', () => {
         exchangeRate: quote.exchangeRate,
         quotedAmount: amount,
         totalBaseAmount: totalBaseAmount,
-        tax: tax
+        tax: tax,
+        spread: quote.spread
       });
 
     });
@@ -316,7 +325,8 @@ describe('Local Quote Calculator', () => {
         purpose: purpose,
         baseCurrencyISO: 'BRL',
         quotedCurrencyISO: 'USD',
-        exchangeRate: exchangeRate
+        exchangeRate: exchangeRate,
+        spread: 0.5,
       }
 
       const quoteCalculator = new QuoteCalculator(validationSpy);
@@ -329,7 +339,8 @@ describe('Local Quote Calculator', () => {
         exchangeRate: quote.exchangeRate,
         quotedAmount: amount,
         totalBaseAmount: totalBaseAmount,
-        tax: tax
+        tax: tax,
+        spread: quote.spread
       });
 
     });
@@ -342,7 +353,8 @@ describe('Local Quote Calculator', () => {
         purpose: 'WHATEVER',
         baseCurrencyISO: 'BRL',
         quotedCurrencyISO: 'USD',
-        exchangeRate: 5.360662
+        exchangeRate: 5.360662,
+        spread: 0.5,
       }
 
       const quoteCalculator = new QuoteCalculator(validationSpy);
@@ -360,7 +372,8 @@ describe('Local Quote Calculator', () => {
         purpose: 'PAYMENT_PROCESSING',
         baseCurrencyISO: 'BRL',
         quotedCurrencyISO: 'XXX',
-        exchangeRate: 5.360662
+        exchangeRate: 5.360662,
+        spread: 0.5,
       }
 
       const quoteCalculator = new QuoteCalculator(validationSpyInvalidParamException);

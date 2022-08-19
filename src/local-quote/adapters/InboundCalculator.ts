@@ -1,4 +1,10 @@
-import { Currencies, ICalculus, LocalQuote, Quote } from "../Quote";
+import {
+  AmountCalculator,
+  Currencies,
+  ICalculus,
+  LocalQuote,
+  Quote,
+} from "../Quote";
 import PrecisionNumber from "../utils";
 
 export default class InboundCalculator implements ICalculus{
@@ -9,26 +15,35 @@ export default class InboundCalculator implements ICalculus{
   }
 
   calculate(quote: Quote, amount: number, tax: number): LocalQuote {
-    const totalBaseAmount = this.baseAmountCalculator(quote, amount, tax);
+    const {
+      totalBaseAmount,
+      exchangeRate,
+    } = this.baseAmountCalculator(quote, amount, tax);
 
     const localQuote = {
-        ...quote,
-        quotedAmount: amount,
-        totalBaseAmount,
-        tax
+      ...quote,
+      quotedAmount: amount,
+      totalBaseAmount,
+      exchangeRate,
+      tax
     };
 
     return localQuote;
   }
 
-  baseAmountCalculator(quote: Quote, amount: number, tax: number): number {
+  baseAmountCalculator(quote: Quote, amount: number, tax: number): AmountCalculator {
     const { exchangeRate, quotedCurrencyISO } = quote;
+    let totalBaseAmount = 0, exchangeRateAdjusted = exchangeRate;
 
     if (quotedCurrencyISO === Currencies.BRL) {
-      return this.directFlow(amount, exchangeRate, tax);
+      totalBaseAmount = this.directFlow(amount, exchangeRate, tax);
+    } else {
+      totalBaseAmount = this.inverseFlow(amount, exchangeRate, tax);
     }
-
-    return this.inverseFlow(amount, exchangeRate, tax);
+    return {
+      totalBaseAmount,
+      exchangeRate: exchangeRateAdjusted
+    }
   }
 
   directFlow(amount: number, exchangeRate: number, tax: number): number {

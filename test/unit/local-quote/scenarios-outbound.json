@@ -9,7 +9,8 @@
         "purpose": "CRYPTO",
         "baseCurrencyISO": "BRL",
         "quotedCurrencyISO": "USD",
-        "exchangeRate": 5.360662
+        "exchangeRate": 5.360662,
+        "spread": 0.5
       }
     },
     "expectedResponse": {
@@ -27,7 +28,8 @@
         "purpose": "PAYMENT_PROCESSING",
         "baseCurrencyISO": "USD",
         "quotedCurrencyISO": "BRL",
-        "exchangeRate": 4.8782054211
+        "exchangeRate": 4.878620888,
+        "spread": 0.5
       }
     },
     "expectedResponse": {

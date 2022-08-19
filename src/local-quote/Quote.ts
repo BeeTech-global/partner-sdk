@@ -21,6 +21,7 @@ export type Quote = {
   baseCurrencyISO: string,
   quotedCurrencyISO: string,
   exchangeRate: number,
+  spread: number,
 }
 
 export type LocalQuote = {
@@ -40,9 +41,14 @@ export interface IQuoteCalculus {
   calculate(quote: Quote, amount: number): LocalQuote
 }
 
+export type AmountCalculator = {
+  totalBaseAmount: number,
+  exchangeRate: number
+}
+
 export interface ICalculus {
   calculate(quote: Quote, amount: number, tax: number): LocalQuote
-  baseAmountCalculator(quote: Quote, amount: number, tax: number): number
+  baseAmountCalculator(quote: Quote, amount: number, tax: number): AmountCalculator
   directFlow(amount: number, exchangeRate: number, tax: number): number
   inverseFlow(amount: number, exchangeRate: number, tax: number): number
 }
