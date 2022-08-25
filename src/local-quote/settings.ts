@@ -3,7 +3,7 @@ const settings = Object.freeze({
     CRYPTO: {
       INBOUND: {
         IOF: {
-          value: 0
+          value: 0.0038
         }
       },
       OUTBOUND: {
@@ -15,7 +15,7 @@ const settings = Object.freeze({
     PAYMENT_PROCESSING: {
       INBOUND: {
         IOF: {
-          value: 0
+          value: 0.0038
         }
       },
       OUTBOUND: {

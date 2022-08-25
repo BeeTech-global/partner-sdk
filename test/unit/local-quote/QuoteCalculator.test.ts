@@ -226,29 +226,29 @@ describe('Local Quote Calculator', () => {
         92455.98,
         'CRYPTO',
         4.9957629246,
-        18506.88,
-        0
+        18436.55,
+        0.0038
       ],
       [
         3681.20,
         'CRYPTO',
         4.9912545936,
-        737.53,
-        0
+        734.73,
+        0.0038
       ],
       [
         500,
         'CRYPTO',
         4.9860395464,
-        100.28,
-        0
+        99.9,
+        0.0038
       ],
       [
         200,
         'CRYPTO',
         4.9850451268,
-        40.12,
-        0
+        39.97,
+        0.0038
       ],
     ])('USD/BRL Direct', async (
       amount: number,
@@ -280,7 +280,6 @@ describe('Local Quote Calculator', () => {
         tax: tax,
         spread: quote.spread
       });
-
     });
 
     it.each([
@@ -288,29 +287,29 @@ describe('Local Quote Calculator', () => {
         92455.98,
         'CRYPTO',
         5.0431575,
-        466270.07,
-        0
+        464498.24,
+        0.0038
       ],
       [
         3681.20,
         'CRYPTO',
         5.04465,
-        18570.37,
-        0
+        18499.8,
+        0.0038
       ],
       [
         500,
         'CRYPTO',
         5.041466,
-        2520.73,
-        0
+        2511.15,
+        0.0038
       ],
       [
         200,
         'CRYPTO',
         5.0421625,
-        1008.43,
-        0
+        1004.6,
+        0.0038
       ],
     ])('USD/BRL Inverse', async (
       amount: number,
