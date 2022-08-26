@@ -28,7 +28,7 @@ describe('Local Quote Calculator', () => {
       purpose: 'CRYPTO',
       baseCurrencyISO: 'BRL',
       quotedCurrencyISO: 'USD',
-      exchangeRate: 5.360662,
+      exchangeRate: 5.3606666667,
       spread: 0.5,
     }
 
@@ -187,7 +187,7 @@ describe('Local Quote Calculator', () => {
         purpose: 'WHATEVER',
         baseCurrencyISO: 'BRL',
         quotedCurrencyISO: 'USD',
-        exchangeRate: 5.360662,
+        exchangeRate: 5.3606666667,
         spread: 0.5,
       }
 
@@ -206,7 +206,7 @@ describe('Local Quote Calculator', () => {
         purpose: 'PAYMENT_PROCESSING',
         baseCurrencyISO: 'BRL',
         quotedCurrencyISO: 'XXX',
-        exchangeRate: 5.360662,
+        exchangeRate: 5.3606666667,
         spread: 0.5,
       }
 
@@ -286,28 +286,28 @@ describe('Local Quote Calculator', () => {
       [
         92455.98,
         'CRYPTO',
-        5.0431575,
+        5.0431574707,
         464498.24,
         0.0038
       ],
       [
         3681.20,
         'CRYPTO',
-        5.04465,
+        5.0446504933,
         18499.8,
         0.0038
       ],
       [
         500,
         'CRYPTO',
-        5.041466,
+        5.0414575386,
         2511.15,
         0.0038
       ],
       [
         200,
         'CRYPTO',
-        5.0421625,
+        5.0421602088,
         1004.6,
         0.0038
       ],
@@ -352,7 +352,7 @@ describe('Local Quote Calculator', () => {
         purpose: 'WHATEVER',
         baseCurrencyISO: 'BRL',
         quotedCurrencyISO: 'USD',
-        exchangeRate: 5.360662,
+        exchangeRate: 5.3606666667,
         spread: 0.5,
       }
 
@@ -371,7 +371,7 @@ describe('Local Quote Calculator', () => {
         purpose: 'PAYMENT_PROCESSING',
         baseCurrencyISO: 'BRL',
         quotedCurrencyISO: 'XXX',
-        exchangeRate: 5.360662,
+        exchangeRate: 5.3606666667,
         spread: 0.5,
       }
 

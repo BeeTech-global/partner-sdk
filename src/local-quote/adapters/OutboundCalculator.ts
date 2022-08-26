@@ -75,7 +75,8 @@ export default class OutboundCalculator implements ICalculus {
   directFlow(amount: number, exchangeRate: number, tax: number): number {
     const taxFlow = (1 + tax);
     const exchangeRatePrecision = this.precisionNumber.truncateMoney(
-      this.precisionNumber.numberPrecision(amount).times(exchangeRate).toNumber(),
+      this.precisionNumber.numberPrecision(amount)
+        .times(exchangeRate).toNumber(),
     );
     const value = this.precisionNumber.truncateMoney(
       this.precisionNumber.numberPrecision(exchangeRatePrecision)

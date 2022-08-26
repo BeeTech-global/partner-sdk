@@ -189,8 +189,32 @@ return totalAmount;
 In the inverse flow, the value of USD is known and the value in BRL needs to be found.
 
 ``` typescript
-const totalAmount = amount * exchangeRate * (1 - tax);
+const totalAmount = (amount * (1 - tax)) * exchangeRate;
 return totalAmount;
+
+```
+
+After calculating the USD value it is necessary to find the new exchange-rate
+
+---
+
+</br>
+
+How to calculate the exchange-rate
+
+``` typescript
+const spread = 0.005;
+const bankFee = 0;
+const fixedTaxAmount = 0;
+const totalPercentualTax = 0.0038;
+const totalReadjustedTax = 0;
+const spreadPrecision = 1 - spread;
+const marketRate = (amount + bankFee + fixedTaxAmount) /
+(totalQuotedAmount * spreadPrecision * (1 - totalPercentualTax - totalReadjustedTax));
+
+const exchangeRate = marketRate * spreadPrecision;
+
+return exchangeRate;
 ```
 
 </br>
