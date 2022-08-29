@@ -189,7 +189,7 @@ return totalAmount;
 In the inverse flow, the value of USD is known and the value in BRL needs to be found.
 
 ``` typescript
-const totalAmount = (amount * (1 - tax)) * exchangeRate;
+const totalAmount = (amount * (1 + tax)) * exchangeRate;
 return totalAmount;
 
 ```

@@ -254,7 +254,7 @@ describe('Local Quote Calculator', () => {
       amount: number,
       purpose: string,
       exchangeRate: number,
-      totalBaseAmount: number,
+      expectedTotalBaseAmount: number,
       tax,
     ) => {
       const quote = {
@@ -276,7 +276,7 @@ describe('Local Quote Calculator', () => {
         quotedCurrencyISO: quote.quotedCurrencyISO,
         exchangeRate: quote.exchangeRate,
         quotedAmount: amount,
-        totalBaseAmount: totalBaseAmount,
+        totalBaseAmount: expectedTotalBaseAmount,
         tax: tax,
         spread: quote.spread
       });
@@ -286,36 +286,41 @@ describe('Local Quote Calculator', () => {
       [
         92455.98,
         'CRYPTO',
-        5.0431574707,
-        464498.24,
+        5.0491869103,
+        5.0877071229,
+        468601.47,
         0.0038
       ],
       [
         3681.20,
         'CRYPTO',
-        5.0446504933,
-        18499.8,
+        5.0491869103,
+        5.0877077325,
+        18657.7,
         0.0038
       ],
       [
         500,
         'CRYPTO',
-        5.0414575386,
-        2511.15,
+        5.0491869103,
+        5.0877133106,
+        2534.19,
         0.0038
       ],
       [
         200,
         'CRYPTO',
-        5.0421602088,
-        1004.6,
+        5.0491869103,
+        5.0876831961,
+        1013.67,
         0.0038
       ],
     ])('USD/BRL Inverse', async (
       amount: number,
       purpose: string,
       exchangeRate: number,
-      totalBaseAmount: number,
+      expectedExchangeRate: number,
+      expectedTotalBaseAmount: number,
       tax,
     ) => {
       const quote = {
@@ -335,9 +340,9 @@ describe('Local Quote Calculator', () => {
         purpose: quote.purpose,
         baseCurrencyISO: quote.baseCurrencyISO,
         quotedCurrencyISO: quote.quotedCurrencyISO,
-        exchangeRate: quote.exchangeRate,
+        exchangeRate: expectedExchangeRate,
         quotedAmount: amount,
-        totalBaseAmount: totalBaseAmount,
+        totalBaseAmount: expectedTotalBaseAmount,
         tax: tax,
         spread: quote.spread
       });

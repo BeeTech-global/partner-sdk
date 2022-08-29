@@ -48,16 +48,14 @@ export default class InboundCalculator implements ICalculus{
   }
 
   adjustExchangeRate(quote: Quote, amount: number, totalQuotedAmount: number, tax: number) {
-    const numberPrecision = this.precisionNumber.numberPrecision.bind(this.precisionNumber);
-    const truncateMoney = this.precisionNumber.truncateMoney.bind(this.precisionNumber);
-
     const { spread } = quote;
 
     const bankFee = 0;
     const fixedTaxAmount = 0;
     const totalPercentualTax = tax;
     const totalReadjustedTax = 0;
-    const spreadPrecision = numberPrecision(1).minus(((spread / 100))).toNumber();
+    const spreadPrecision = this.precisionNumber
+      .numberPrecision(1).minus(((spread / 100))).toNumber();
 
     const marketRate =
     (amount + bankFee + fixedTaxAmount) /
@@ -82,7 +80,7 @@ export default class InboundCalculator implements ICalculus{
   }
 
   inverseFlow(totalAmount: number, exchangeRate: number, tax: number): number {
-    const amount = totalAmount * (1 - tax);
+    const amount = totalAmount * (1 + tax);
     const value = this.precisionNumber.truncateMoney(
       this.precisionNumber.numberPrecision(amount)
         .times(exchangeRate).toNumber(),
