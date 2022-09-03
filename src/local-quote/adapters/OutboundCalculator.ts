@@ -62,9 +62,9 @@ export default class OutboundCalculator implements ICalculus {
   }
 
   inverseFlow(totalAmount: number, exchangeRate: number, tax: number): number {
-    const amount = totalAmount / (1 + tax);
+    const quotedAmount = totalAmount / (1 + tax);
     const value = this.precisionNumber.truncateMoney(
-      this.precisionNumber.numberPrecision(amount)
+      this.precisionNumber.numberPrecision(quotedAmount)
         .dividedBy(exchangeRate).toNumber(),
     );
     return value;

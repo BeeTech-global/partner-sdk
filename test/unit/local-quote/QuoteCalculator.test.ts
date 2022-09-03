@@ -46,12 +46,14 @@ describe('Local Quote Calculator', () => {
         37115782.22,
         'PAYMENT_PROCESSING',
         5.128314,
+        5.128314,
         191064682.85,
         0.0038
       ],
       [
         92455.98,
         'PAYMENT_PROCESSING',
+        5.136354,
         5.136354,
         476691.21,
         0.0038
@@ -60,12 +62,14 @@ describe('Local Quote Calculator', () => {
         3681.20,
         'PAYMENT_PROCESSING',
         5.1354495,
+        5.1354495,
         18976.46,
         0.0038
       ],
       [
         500,
         'PAYMENT_PROCESSING',
+        5.134344,
         5.134344,
         2576.93,
         0.0038
@@ -74,6 +78,7 @@ describe('Local Quote Calculator', () => {
         200,
         'PAYMENT_PROCESSING',
         5.134344,
+        5.134344,
         1030.77,
         0.0038
       ]
@@ -81,7 +86,8 @@ describe('Local Quote Calculator', () => {
       amount: number,
       purpose: string,
       exchangeRate: number,
-      totalBaseAmount: number,
+      expectedExchangeRate: number,
+      expectedTotalBaseAmount: number,
       tax,
     ) => {
       const quote = {
@@ -101,9 +107,9 @@ describe('Local Quote Calculator', () => {
         purpose: quote.purpose,
         baseCurrencyISO: quote.baseCurrencyISO,
         quotedCurrencyISO: quote.quotedCurrencyISO,
-        exchangeRate: quote.exchangeRate,
+        exchangeRate: expectedExchangeRate,
         quotedAmount: amount,
-        totalBaseAmount: totalBaseAmount,
+        totalBaseAmount: expectedTotalBaseAmount,
         tax: tax,
         spread: quote.spread
       });
@@ -115,12 +121,14 @@ describe('Local Quote Calculator', () => {
         37115782.22,
         'PAYMENT_PROCESSING',
         5.1319320023,
+        5.1319320023,
         7204942.73,
         0.0038
       ],
       [
         92455.98,
         'PAYMENT_PROCESSING',
+        5.132936506,
         5.132936506,
         17944.11,
         0.0038
@@ -129,12 +137,14 @@ describe('Local Quote Calculator', () => {
         3681.20,
         'PAYMENT_PROCESSING',
         5.1329177215,
+        5.1329177215,
         714.46,
         0.0038
       ],
       [
         500,
         'PAYMENT_PROCESSING',
+        5.1330089929,
         5.1330089929,
         97.04,
         0.0038
@@ -143,15 +153,49 @@ describe('Local Quote Calculator', () => {
         200,
         'PAYMENT_PROCESSING',
         5.1311583072,
+        5.1311583072,
         38.83,
+        0.0038
+      ],
+      [
+        100000,
+        'CRYPTO',
+        5.2116073791,
+        5.2116073791,
+        19115.3,
+        0.0038
+      ],
+      [
+        10000,
+        'CRYPTO',
+        5.2116073791,
+        5.2116073791,
+        1911.53,
+        0.0038
+      ],
+      [
+        150,
+        'CRYPTO',
+        5.2116073791,
+        5.2121436275,
+        28.67,
+        0.0038
+      ],
+      [
+        1,
+        'CRYPTO',
+        5.2116073791,
+        5.243233607,
+        0.19,
         0.0038
       ],
     ])('USD/BRL Inverse', async (
       amount: number,
       purpose: string,
       exchangeRate: number,
-      totalBaseAmount: number,
-      tax,
+      expectedExchangeRate: number,
+      expectedTotalBaseAmount: number,
+      tax: number,
     ) => {
       const quote = {
         id: 'quote_id',
@@ -170,9 +214,9 @@ describe('Local Quote Calculator', () => {
         purpose: quote.purpose,
         baseCurrencyISO: quote.baseCurrencyISO,
         quotedCurrencyISO: quote.quotedCurrencyISO,
-        exchangeRate: quote.exchangeRate,
+        exchangeRate: expectedExchangeRate,
         quotedAmount: amount,
-        totalBaseAmount: totalBaseAmount,
+        totalBaseAmount: expectedTotalBaseAmount,
         tax: tax,
         spread: quote.spread
       });
@@ -226,28 +270,28 @@ describe('Local Quote Calculator', () => {
         92455.98,
         'CRYPTO',
         4.9957629246,
-        18436.55,
+        18577.21,
         0.0038
       ],
       [
         3681.20,
         'CRYPTO',
         4.9912545936,
-        734.73,
+        740.33,
         0.0038
       ],
       [
         500,
         'CRYPTO',
         4.9860395464,
-        99.9,
+        100.66,
         0.0038
       ],
       [
         200,
         'CRYPTO',
         4.9850451268,
-        39.97,
+        40.27,
         0.0038
       ],
     ])('USD/BRL Direct', async (
@@ -284,35 +328,35 @@ describe('Local Quote Calculator', () => {
 
     it.each([
       [
-        92455.98,
+        100000,
         'CRYPTO',
-        5.0491869103,
-        5.0877071229,
-        468601.47,
+        5.13231675,
+        5.1323168039,
+        511281.4,
         0.0038
       ],
       [
-        3681.20,
+        10000,
         'CRYPTO',
-        5.0491869103,
-        5.0877077325,
-        18657.7,
+        5.13231675,
+        5.1323168039,
+        51128.14,
         0.0038
       ],
       [
-        500,
+        150,
         'CRYPTO',
-        5.0491869103,
-        5.0877133106,
-        2534.19,
+        5.13231675,
+        5.1323027505,
+        766.92,
         0.0038
       ],
       [
-        200,
+        1,
         'CRYPTO',
-        5.0491869103,
-        5.0876831961,
-        1013.67,
+        5.13231675,
+        5.1294920699,
+        5.11,
         0.0038
       ],
     ])('USD/BRL Inverse', async (

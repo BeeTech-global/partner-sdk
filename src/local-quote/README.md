@@ -168,7 +168,7 @@ return exchangeRate;
 IOF tax rate is set at 0% of the value.
 
 ``` typescript
-const IOF = 0;
+const IOF = 0.0038;
 ```
 
 </br>
@@ -178,7 +178,7 @@ const IOF = 0;
 In the direct flow, the value of BRL is known and the value in USD must be found.
 
 ``` typescript
-const totalAmount = (amount / exchangeRate) * (1 - tax);
+const totalAmount = (amount / exchangeRate) * (1 + tax);
 return totalAmount;
 ```
 
@@ -189,9 +189,8 @@ return totalAmount;
 In the inverse flow, the value of USD is known and the value in BRL needs to be found.
 
 ``` typescript
-const totalAmount = (amount * (1 + tax)) * exchangeRate;
+const totalAmount = (exchangeRate * totalAmount) * (1 - tax);
 return totalAmount;
-
 ```
 
 After calculating the USD value it is necessary to find the new exchange-rate
