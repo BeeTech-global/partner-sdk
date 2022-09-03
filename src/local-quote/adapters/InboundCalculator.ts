@@ -67,7 +67,7 @@ export default class InboundCalculator implements ICalculus{
   }
 
   directFlow(amount: number, exchangeRate: number, tax: number): number {
-    const taxFlow = (1 - tax);
+    const taxFlow = (1 + tax);
     const exchangeRatePrecision = this.precisionNumber.truncateMoney(
       this.precisionNumber.numberPrecision(amount)
         .dividedBy(exchangeRate).toNumber(),
@@ -80,11 +80,15 @@ export default class InboundCalculator implements ICalculus{
   }
 
   inverseFlow(totalAmount: number, exchangeRate: number, tax: number): number {
-    const amount = totalAmount * (1 + tax);
-    const value = this.precisionNumber.truncateMoney(
-      this.precisionNumber.numberPrecision(amount)
-        .times(exchangeRate).toNumber(),
-    );
+    const quotedAmount = this.precisionNumber.truncateMoney(exchangeRate * totalAmount);
+    const value =  this.precisionNumber.truncateMoney(quotedAmount * (1 - tax));
     return value;
   }
 }
+
+// 20:00 -> Entradas iguais (totalQuotedAmount e exchangeRate) em sistemas diferentes (sdk e pricing)
+//  com resultados diferentes (exchangeRate, totalBaseAmount)
+
+// 21:00 -> mudamos esse código para ficar igual ao retorno do pricing
+
+
