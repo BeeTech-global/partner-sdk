@@ -89,7 +89,7 @@ export default class InboundCalculator implements ICalculus{
       this.precisionNumber.numberPrecision(totalWithTaxBaseAmount)
         .times(taxFlow).toNumber(),
     );
-    const taxBaseAmount = this.precisionNumber.truncateMoney(totalBaseAmount - totalWithTaxBaseAmount);
+    const taxBaseAmount = this.precisionNumber.truncateMoney((totalBaseAmount * exchangeRate) * tax);
     return {
       taxBaseAmount,
       totalBaseAmount,
