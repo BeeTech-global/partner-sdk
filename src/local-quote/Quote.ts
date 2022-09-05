@@ -34,6 +34,7 @@ export type LocalQuote = {
   totalBaseAmount: number,
   exchangeRate: number,
   tax: number,
+  taxBaseAmount: number,
 }
 
 export interface IQuoteCalculus {
@@ -43,12 +44,18 @@ export interface IQuoteCalculus {
 
 export type AmountCalculator = {
   totalBaseAmount: number,
+  taxBaseAmount: number,
   exchangeRate: number
+}
+
+export type BaseAmountCalculator = {
+  totalBaseAmount: number,
+  taxBaseAmount: number,
 }
 
 export interface ICalculus {
   calculate(quote: Quote, amount: number, tax: number): LocalQuote
   baseAmountCalculator(quote: Quote, amount: number, tax: number): AmountCalculator
-  directFlow(amount: number, exchangeRate: number, tax: number): number
-  inverseFlow(amount: number, exchangeRate: number, tax: number): number
+  directFlow(amount: number, exchangeRate: number, tax: number): BaseAmountCalculator
+  inverseFlow(amount: number, exchangeRate: number, tax: number): BaseAmountCalculator
 }

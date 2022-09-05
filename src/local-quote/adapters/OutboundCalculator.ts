@@ -1,4 +1,4 @@
-import { AmountCalculator, Currencies, ICalculus, LocalQuote, Quote } from "../Quote";
+import { AmountCalculator, BaseAmountCalculator, Currencies, ICalculus, LocalQuote, Quote } from "../Quote";
 import PrecisionNumber from "../utils";
 
 export default class OutboundCalculator implements ICalculus {
@@ -11,6 +11,7 @@ export default class OutboundCalculator implements ICalculus {
   calculate(quote: Quote, amount: number, tax: number): LocalQuote {
     const {
       totalBaseAmount,
+      taxBaseAmount,
       exchangeRate,
     } = this.baseAmountCalculator(quote,  amount, tax);
 
@@ -19,7 +20,8 @@ export default class OutboundCalculator implements ICalculus {
       quotedAmount: amount,
       totalBaseAmount,
       exchangeRate,
-      tax
+      tax,
+      taxBaseAmount,
     };
 
     return localQuote;
@@ -27,24 +29,35 @@ export default class OutboundCalculator implements ICalculus {
 
   baseAmountCalculator(quote: Quote, amount: number, tax: number): AmountCalculator {
     const { exchangeRate, quotedCurrencyISO } = quote;
-    let totalBaseAmount = 0, exchangeRateAdjusted = exchangeRate;
+    let totalBaseAmount = 0, taxBaseAmount = 0, exchangeRateAdjusted = exchangeRate;
 
-    if (quotedCurrencyISO === Currencies.BRL) {
-      totalBaseAmount = this.inverseFlow(amount, exchangeRate, tax);
-      exchangeRateAdjusted = this.adjustExchangeRate(quote, totalBaseAmount, amount, tax);
-    } else {
-      totalBaseAmount = this.directFlow(amount, exchangeRate, tax);
+    switch (quotedCurrencyISO) {
+      case Currencies.BRL:
+        const inverseFlow = this.inverseFlow(amount, exchangeRate, tax);
+        totalBaseAmount = inverseFlow.totalBaseAmount;
+        taxBaseAmount = inverseFlow.taxBaseAmount;
+        exchangeRateAdjusted = this.adjustExchangeRate(quote, inverseFlow.totalBaseAmount, amount, tax);
+        break;
+      default:
+        const directFlow = this.directFlow(amount, exchangeRate, tax);
+        totalBaseAmount = directFlow.totalBaseAmount;
+        taxBaseAmount = directFlow.taxBaseAmount;
+        break;
     }
 
     return {
       totalBaseAmount,
+      taxBaseAmount,
       exchangeRate: exchangeRateAdjusted
     }
   }
 
   adjustExchangeRate(quote: Quote, amount: number, totalQuotedAmount: number, tax: number) {
-    const { spread } = quote;
+    if (amount === 0) {
+      return quote.exchangeRate;
+    }
 
+    const { spread } = quote;
     const bankFee = 0;
     const fixedTaxAmount = 0;
     const totalPercentualTax = tax;
@@ -61,25 +74,33 @@ export default class OutboundCalculator implements ICalculus {
     return exchangeRate;
   }
 
-  inverseFlow(totalAmount: number, exchangeRate: number, tax: number): number {
-    const quotedAmount = totalAmount / (1 + tax);
-    const value = this.precisionNumber.truncateMoney(
-      this.precisionNumber.numberPrecision(quotedAmount)
+  inverseFlow(totalAmount: number, exchangeRate: number, tax: number): BaseAmountCalculator {
+    const totalWithTaxBaseAmount = this.precisionNumber.truncateMoney(totalAmount / (1 + tax));
+    const totalBaseAmount = this.precisionNumber.truncateMoney(
+      this.precisionNumber.numberPrecision(totalWithTaxBaseAmount)
         .dividedBy(exchangeRate).toNumber(),
     );
-    return value;
+    const taxBaseAmount = this.precisionNumber.truncateMoney(totalWithTaxBaseAmount * tax);
+    return {
+      taxBaseAmount,
+      totalBaseAmount,
+    };
   }
 
-  directFlow(amount: number, exchangeRate: number, tax: number): number {
+  directFlow(amount: number, exchangeRate: number, tax: number): BaseAmountCalculator {
     const taxFlow = (1 + tax);
-    const exchangeRatePrecision = this.precisionNumber.truncateMoney(
+    const totalWithTaxBaseAmount = this.precisionNumber.truncateMoney(
       this.precisionNumber.numberPrecision(amount)
         .times(exchangeRate).toNumber(),
     );
-    const value = this.precisionNumber.truncateMoney(
-      this.precisionNumber.numberPrecision(exchangeRatePrecision)
+    const totalBaseAmount = this.precisionNumber.truncateMoney(
+      this.precisionNumber.numberPrecision(totalWithTaxBaseAmount)
         .times(taxFlow).toNumber(),
     );
-    return value;
+    const taxBaseAmount = this.precisionNumber.truncateMoney(totalBaseAmount - totalWithTaxBaseAmount);
+    return {
+      taxBaseAmount,
+      totalBaseAmount,
+    };
   }
 }

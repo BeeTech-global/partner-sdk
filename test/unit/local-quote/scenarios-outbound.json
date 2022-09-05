@@ -15,7 +15,8 @@
     },
     "expectedResponse": {
       "quotedAmount": 300,
-      "totalBaseAmount": 1614.31
+      "totalBaseAmount": 1614.31,
+      "taxBaseAmount": 6.11
     }
   },
   {
@@ -34,7 +35,8 @@
     },
     "expectedResponse": {
       "quotedAmount": 200,
-      "totalBaseAmount": 40.84
+      "totalBaseAmount": 40.84,
+      "taxBaseAmount": 0.76
     }
   }
 ]

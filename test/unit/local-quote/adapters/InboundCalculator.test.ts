@@ -23,7 +23,6 @@ describe('Quote Calculator Inbound', () => {
           tax
         } = request;
 
-
         const localQuote = quoteCalculator.calculate(quote, amount, tax)
 
         expect(localQuote).toEqual({
