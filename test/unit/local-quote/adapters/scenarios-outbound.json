@@ -2,7 +2,7 @@
   {
     "request": {
       "amount": 300,
-      "tax": 0.0038,
+      "taxRate": 0.38,
       "quote": {
         "id": "quote_id",
         "direction": "OUTBOUND",
@@ -22,7 +22,7 @@
   {
     "request": {
       "amount": 200,
-      "tax": 0.0038,
+      "taxRate": 0.38,
       "quote": {
         "id": "quote_id",
         "direction": "OUTBOUND",

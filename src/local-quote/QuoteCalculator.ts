@@ -4,19 +4,17 @@ import OutboundCalculator from "./adapters/OutboundCalculator";
 import { IQuoteCalculus, ICalculus, Direction, Purposes, Quote, LocalQuote } from "./Quote";
 
 import {
-  DirectionNotAvailableException,
   InvalidDirectionException,
-  UnsupportedPurposeException,
 } from "./errors";
 
-import settings from "./settings";
 import { IValidation } from "./validation/Validation";
+import TaxCalculator from "../tax-calculator/TaxCalculator";
 
 export default class QuoteCalculator implements IQuoteCalculus {
   private calculus!: ICalculus;
 
   constructor(
-    private readonly validation: IValidation
+    private readonly validation: IValidation,
   ) {}
 
    buildAdapter(direction: string): void {
@@ -35,7 +33,7 @@ export default class QuoteCalculator implements IQuoteCalculus {
   }
 
   calculate(quote: Quote, amount: number): LocalQuote {
-   const { direction, purpose } = quote;
+   const { direction } = quote;
    this.buildAdapter(direction);
 
    const error = this.validation.validate(quote);
@@ -43,24 +41,8 @@ export default class QuoteCalculator implements IQuoteCalculus {
     throw error;
    }
 
-   const tax = this.seekTaxesByPurpose(purpose, direction);
+   const taxRate = TaxCalculator.getTaxRate(direction as Direction)
 
-   return this.calculus.calculate(quote, amount, tax);
-  }
-
-  private seekTaxesByPurpose(purpose: string, direction: string): number {
-    const purposeTaxes = settings.taxes[purpose as Purposes]
-
-    if (!purposeTaxes) {
-      throw new UnsupportedPurposeException();
-    }
-
-    const purposeTaxesDirection = purposeTaxes[direction as Direction];
-
-    if (!purposeTaxesDirection) {
-      throw new DirectionNotAvailableException();
-    }
-
-    return purposeTaxesDirection.IOF.value;
+   return this.calculus.calculate(quote, amount, taxRate);
   }
 }

@@ -2,7 +2,7 @@
   {
     "request": {
       "amount": 300,
-      "tax": 0,
+      "taxRate": 0.38,
       "quote": {
         "id": "quote_id",
         "direction": "INBOUND",
@@ -14,15 +14,16 @@
       }
     },
     "expectedResponse": {
+      "exchangeRate": 5.3606705481,
       "quotedAmount": 300,
-      "totalBaseAmount": 1608.2,
-      "taxBaseAmount": 0
+      "totalBaseAmount": 1602.09,
+      "taxBaseAmount": 6.11
     }
   },
   {
     "request": {
       "amount": 230,
-      "tax": 0,
+      "taxRate": 0.38,
       "quote": {
         "id": "quote_id",
         "direction": "INBOUND",
@@ -35,8 +36,8 @@
     },
     "expectedResponse": {
       "quotedAmount": 230,
-      "totalBaseAmount": 47.15,
-      "taxBaseAmount": 0
+      "totalBaseAmount": 47.33,
+      "taxBaseAmount": 0.88
     }
   }
 ]

@@ -1,30 +1,45 @@
 import QuoteCalculator from '../../../src/local-quote/QuoteCalculator';
-import {
-  InvalidDirectionException,
-  InvalidParamException,
-  UnsupportedPurposeException,
-} from '../../../src/local-quote/errors';
+import TaxCalculator from '../../../src/tax-calculator/TaxCalculator';
+import { Direction } from '../../../src/local-quote/Quote';
 
+let quoteCalculator: QuoteCalculator
 
 describe('Local Quote Calculator', () => {
+
+  jest.spyOn(TaxCalculator,'getTaxRate')
 
   const validationSpy = {
     validate: jest.fn().mockReturnValue(null)
   };
 
-  const validationSpyInvalidParamException = {
-    validate: jest.fn().mockReturnValue(new InvalidParamException('error'))
-  };
+  beforeEach(() => {
+    quoteCalculator = new QuoteCalculator(validationSpy);
+  })
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('return an exception if the direction is not correct', () => {
+  it('validates the received params', () => {
     const amount = 300;
     const quote = {
       id: 'quote_id',
-      direction: 'WHATEVER',
+      direction: 'INVALID',
+      purpose: 'INVALID',
+      baseCurrencyISO: 'INVALID',
+      quotedCurrencyISO: 'INVALID',
+      exchangeRate: 0,
+      spread: 0,
+    }
+
+    expect(() => quoteCalculator.calculate(quote, amount)).toThrowError()
+  });
+
+  it('calls validation function to check params', () => {
+    const amount = 300;
+    const quote = {
+      id: 'quote_id',
+      direction: 'OUTBOUND',
       purpose: 'CRYPTO',
       baseCurrencyISO: 'BRL',
       quotedCurrencyISO: 'USD',
@@ -32,12 +47,27 @@ describe('Local Quote Calculator', () => {
       spread: 0.5,
     }
 
-    const quoteCalculator = new QuoteCalculator(validationSpy);
-    expect(
-      () => quoteCalculator.calculate(quote, amount)
-    ).toThrow(InvalidDirectionException)
+    quoteCalculator.calculate(quote,amount)
 
-  });
+    expect(validationSpy.validate).toBeCalledWith(quote)
+  })
+
+  it('calls taxCalculator to get the taxRate', () => {
+    const amount = 300;
+    const quote = {
+      id: 'quote_id',
+      direction: 'OUTBOUND',
+      purpose: 'CRYPTO',
+      baseCurrencyISO: 'BRL',
+      quotedCurrencyISO: 'USD',
+      exchangeRate: 5.3606666667,
+      spread: 0.5,
+    }
+
+    quoteCalculator.calculate(quote,amount)
+
+    expect(TaxCalculator.getTaxRate).toBeCalledWith(quote.direction as Direction)
+  })
 
   describe('OUTBOUND', () => {
 
@@ -124,7 +154,6 @@ describe('Local Quote Calculator', () => {
         spread: 0.5,
       }
 
-      const quoteCalculator = new QuoteCalculator(validationSpy);
       expect(quoteCalculator.calculate(quote, amount)).toEqual({
         id: quote.id,
         direction: quote.direction,
@@ -260,7 +289,6 @@ describe('Local Quote Calculator', () => {
         spread: 0.5,
       }
 
-      const quoteCalculator = new QuoteCalculator(validationSpy);
       expect(quoteCalculator.calculate(quote, amount)).toEqual({
         id: quote.id,
         direction: quote.direction,
@@ -276,45 +304,6 @@ describe('Local Quote Calculator', () => {
       });
 
     });
-
-    it('throw an exception when the purpose is invalid', () => {
-      const amount = 300;
-      const quote = {
-        id: 'quote_id',
-        direction: 'OUTBOUND',
-        purpose: 'WHATEVER',
-        baseCurrencyISO: 'BRL',
-        quotedCurrencyISO: 'USD',
-        exchangeRate: 5.3606666667,
-        spread: 0.5,
-      }
-
-      const quoteCalculator = new QuoteCalculator(validationSpy);
-      expect(
-        () => quoteCalculator.calculate(quote, amount)
-      ).toThrow(UnsupportedPurposeException)
-
-    });
-
-    it('throw an exception when quotedCurrencyISO is invalid', () => {
-      const amount = 300;
-      const quote = {
-        id: 'quote_id',
-        direction: 'OUTBOUND',
-        purpose: 'PAYMENT_PROCESSING',
-        baseCurrencyISO: 'BRL',
-        quotedCurrencyISO: 'XXX',
-        exchangeRate: 5.3606666667,
-        spread: 0.5,
-      }
-
-      const quoteCalculator = new QuoteCalculator(validationSpyInvalidParamException);
-      expect(
-       () => quoteCalculator.calculate(quote, amount)
-      ).toThrow(new InvalidParamException('error'))
-
-    });
-
   });
 
   describe('INBOUND', () => {
@@ -378,7 +367,6 @@ describe('Local Quote Calculator', () => {
         spread: 0.5,
       }
 
-      const quoteCalculator = new QuoteCalculator(validationSpy);
       expect(quoteCalculator.calculate(quote, amount)).toEqual({
         id: quote.id,
         direction: quote.direction,
@@ -459,7 +447,6 @@ describe('Local Quote Calculator', () => {
         spread: 0.5,
       }
 
-      const quoteCalculator = new QuoteCalculator(validationSpy);
       expect(quoteCalculator.calculate(quote, amount)).toEqual({
         id: quote.id,
         direction: quote.direction,
@@ -475,43 +462,5 @@ describe('Local Quote Calculator', () => {
       });
 
     });
-
-    it('throw an exception when the purpose is invalid', () => {
-      const amount = 300;
-      const quote = {
-        id: 'quote_id',
-        direction: 'INBOUND',
-        purpose: 'WHATEVER',
-        baseCurrencyISO: 'BRL',
-        quotedCurrencyISO: 'USD',
-        exchangeRate: 5.3606666667,
-        spread: 0.5,
-      }
-
-      const quoteCalculator = new QuoteCalculator(validationSpy);
-      expect(
-        () => quoteCalculator.calculate(quote, amount)
-      ).toThrow(UnsupportedPurposeException)
-
-    });
-
-    it('throw an exception when quotedCurrencyISO is invalid', () => {
-      const amount = 300;
-      const quote = {
-        id: 'quote_id',
-        direction: 'INBOUND',
-        purpose: 'PAYMENT_PROCESSING',
-        baseCurrencyISO: 'BRL',
-        quotedCurrencyISO: 'XXX',
-        exchangeRate: 5.3606666667,
-        spread: 0.5,
-      }
-
-      const quoteCalculator = new QuoteCalculator(validationSpyInvalidParamException);
-      expect(
-       () => quoteCalculator.calculate(quote, amount)
-      ).toThrow(new InvalidParamException('error'))
-    });
-
   });
 });

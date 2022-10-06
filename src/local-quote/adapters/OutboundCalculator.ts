@@ -8,19 +8,21 @@ export default class OutboundCalculator implements ICalculus {
     this.precisionNumber = new PrecisionNumber();
   }
 
-  calculate(quote: Quote, amount: number, tax: number): LocalQuote {
+  calculate(quote: Quote, amount: number, taxRate: number): LocalQuote {
+
+    const percentualTaxRate = taxRate/100
     const {
       totalBaseAmount,
       taxBaseAmount,
       exchangeRate,
-    } = this.baseAmountCalculator(quote,  amount, tax);
+    } = this.baseAmountCalculator(quote,  amount, percentualTaxRate);
 
     const localQuote = {
       ...quote,
       quotedAmount: amount,
       totalBaseAmount,
       exchangeRate,
-      tax,
+      tax: percentualTaxRate,
       taxBaseAmount,
     };
 

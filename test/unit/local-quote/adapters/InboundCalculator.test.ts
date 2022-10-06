@@ -1,6 +1,6 @@
 import { Currencies, Direction, ICalculus, Purposes, Quote } from '../../../../src/local-quote/Quote';
 import InboundCalculator from '../../../../src/local-quote/adapters/InboundCalculator';
-import scenario from '../scenarios-inbound.json';
+import scenario from './scenarios-inbound.json';
 
 let quoteCalculator: ICalculus
 
@@ -16,19 +16,18 @@ describe('Quote Calculator Inbound', () => {
       ({request, expectedResponse})  => {
 
       it('calculates local quote', () => {
-
         const {
           quote,
           amount,
-          tax
+          taxRate
         } = request;
 
-        const localQuote = quoteCalculator.calculate(quote, amount, tax)
+        const localQuote = quoteCalculator.calculate(quote, amount, taxRate)
 
         expect(localQuote).toEqual({
           ...quote,
           ...expectedResponse,
-          tax: 0
+          tax: taxRate/100
         })
       })
     })
