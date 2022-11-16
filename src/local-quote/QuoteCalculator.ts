@@ -33,7 +33,7 @@ export default class QuoteCalculator implements IQuoteCalculus {
   }
 
   calculate(quote: Quote, amount: number): LocalQuote {
-   const { direction } = quote;
+   const { direction, purpose } = quote;
    this.buildAdapter(direction);
 
    const error = this.validation.validate(quote);
@@ -41,7 +41,7 @@ export default class QuoteCalculator implements IQuoteCalculus {
     throw error;
    }
 
-   const taxRate = TaxCalculator.getTaxRate(direction as Direction)
+   const taxRate = TaxCalculator.getTaxRate(purpose as Purposes, direction as Direction)
 
    return this.calculus.calculate(quote, amount, taxRate);
   }

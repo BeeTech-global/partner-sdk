@@ -5,7 +5,8 @@ export enum Direction{
 
 export enum Purposes {
   CRYPTO = 'CRYPTO',
-  PAYMENT_PROCESSING = 'PAYMENT_PROCESSING'
+  PAYMENT_PROCESSING = 'PAYMENT_PROCESSING',
+  COMEX = 'COMEX'
 }
 
 export enum Currencies {

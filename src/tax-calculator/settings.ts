@@ -1,11 +1,51 @@
 const settings = Object.freeze({
   taxes: {
-    IOF: {
+    CRYPTO: {
       INBOUND: {
-        rate: 0.38
+        IOF: {
+          value: 0.38
+        }
       },
       OUTBOUND: {
-        rate: 0.38
+        IOF: {
+          value: 0.38
+        }
+      }
+    },
+    PAYMENT_PROCESSING: {
+      INBOUND: {
+        IOF: {
+          value: 0.38
+        }
+      },
+      OUTBOUND: {
+        IOF: {
+          value: 0.38
+        }
+      }
+    },
+    COMEX: {
+      INBOUND: {
+        IOF: {
+          value: 0
+        }
+      },
+      OUTBOUND: {
+        IOF: {
+          value: 0
+        }
+      }
+    },
+    DEFAULT: {
+      INBOUND: {
+        IOF: {
+          value: 0.38
+        }
+      },
+      OUTBOUND: {
+        IOF: {
+          value: 0.38
+        }
       }
     }
   }

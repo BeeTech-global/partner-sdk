@@ -1,6 +1,6 @@
 import QuoteCalculator from '../../../src/local-quote/QuoteCalculator';
 import TaxCalculator from '../../../src/tax-calculator/TaxCalculator';
-import { Direction } from '../../../src/local-quote/Quote';
+import { Direction, Purposes } from '../../../src/local-quote/Quote';
 
 let quoteCalculator: QuoteCalculator
 
@@ -66,7 +66,10 @@ describe('Local Quote Calculator', () => {
 
     quoteCalculator.calculate(quote,amount)
 
-    expect(TaxCalculator.getTaxRate).toBeCalledWith(quote.direction as Direction)
+    expect(TaxCalculator.getTaxRate).toBeCalledWith(
+      quote.purpose as Purposes,
+      quote.direction as Direction,
+    )
   })
 
   describe('OUTBOUND', () => {

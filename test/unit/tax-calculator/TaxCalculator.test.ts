@@ -10,9 +10,9 @@ describe('TaxCalculator', () => {
       const currencyAmount = 1000
       const direction = Direction.INBOUND;
 
-      const expectedAmount = currencyAmount * (settings.taxes.IOF.INBOUND.rate / 100)
+      const expectedAmount = currencyAmount * (settings.taxes.DEFAULT.INBOUND.IOF.value / 100)
 
-      const taxAmount = TaxCalculator.getTaxAmount({currencyAmount, direction})
+      const taxAmount = TaxCalculator.getTaxAmount({currencyAmount, direction, purpose: null})
 
       expect(taxAmount).toEqual(expectedAmount)
     })
@@ -21,9 +21,9 @@ describe('TaxCalculator', () => {
       const currencyAmount = 1000
       const direction = Direction.OUTBOUND;
 
-      const expectedAmount = currencyAmount * (settings.taxes.IOF.OUTBOUND.rate / 100)
+      const expectedAmount = currencyAmount * (settings.taxes.DEFAULT.OUTBOUND.IOF.value / 100)
 
-      const taxAmount = TaxCalculator.getTaxAmount({currencyAmount, direction})
+      const taxAmount = TaxCalculator.getTaxAmount({currencyAmount, direction, purpose: null})
 
       expect(taxAmount).toEqual(expectedAmount)
     })
@@ -32,13 +32,13 @@ describe('TaxCalculator', () => {
   describe('#getTaxRate', () => {
 
     it('returns the taxRate when direction is OUTBOUND', () => {
-      const taxRate = TaxCalculator.getTaxRate(Direction.OUTBOUND)
-      expect(taxRate).toEqual(settings.taxes.IOF.OUTBOUND.rate)
+      const taxRate = TaxCalculator.getTaxRate(null, Direction.OUTBOUND)
+      expect(taxRate).toEqual(settings.taxes.DEFAULT.OUTBOUND.IOF.value)
     })
 
     it('returns the taxRate when direction is INBOUND', () => {
-      const taxRate = TaxCalculator.getTaxRate(Direction.INBOUND)
-      expect(taxRate).toEqual(settings.taxes.IOF.INBOUND.rate)
+      const taxRate = TaxCalculator.getTaxRate(null, Direction.INBOUND)
+      expect(taxRate).toEqual(settings.taxes.DEFAULT.INBOUND.IOF.value)
     })
   })
 })
