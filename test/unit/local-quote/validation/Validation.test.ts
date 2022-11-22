@@ -49,7 +49,7 @@ describe('Validation', () => {
     const validation = new Validation();
     expect(
       validation.validate(quote)
-    ).toEqual(new InvalidParamException('Only currencies are supported BRL/USD/EUR'));
+    ).toEqual(new InvalidParamException('Only currencies are supported BRL/USD/EUR/AUD/CHF'));
   });
 
   it('return an exception if the quotedCurrencyISO is not supported', () => {
@@ -58,14 +58,14 @@ describe('Validation', () => {
       direction: 'INBOUND',
       purpose: 'PAYMENT_PROCESSING',
       baseCurrencyISO: 'BRL',
-      quotedCurrencyISO: 'AUD',
+      quotedCurrencyISO: 'GBP',
       exchangeRate: 5.360662
     }
 
     const validation = new Validation();
     expect(
       validation.validate(quote)
-    ).toEqual(new InvalidParamException('Only currencies are supported BRL/USD/EUR'));
+    ).toEqual(new InvalidParamException('Only currencies are supported BRL/USD/EUR/AUD/CHF'));
   });
 
   it('return null if all validation passes', () => {

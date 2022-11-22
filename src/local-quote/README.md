@@ -18,7 +18,7 @@ Direction = 'INBOUND' | 'OUTBOUND'
 
 Purpose = 'CRYPTO' | 'PAYMENT_PROCESSING'
 
-CurrencyISO = 'USD' | 'BRL' | 'EUR'
+CurrencyISO = 'USD' | 'BRL' | 'EUR' | 'AUD' | 'CHF'
 
 Quote = {
   id: string, //uuid

@@ -12,7 +12,9 @@ export enum Purposes {
 export enum Currencies {
   USD = 'USD',
   BRL = 'BRL',
-  EUR = 'EUR'
+  EUR = 'EUR',
+  AUD = 'AUD',
+  CHF = 'CHF'
 }
 
 export type Quote = {

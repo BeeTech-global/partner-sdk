@@ -32,7 +32,7 @@ export default class Validation implements IValidation {
       ||
       !currencies.includes(quotedCurrencyISO)
     ) {
-      return new InvalidParamException('Only currencies are supported BRL/USD/EUR');
+      return new InvalidParamException('Only currencies are supported BRL/USD/EUR/AUD/CHF');
     }
 
     return null;
