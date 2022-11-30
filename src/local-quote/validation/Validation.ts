@@ -24,7 +24,7 @@ export default class Validation implements IValidation {
     }
 
     if (!purposes.includes(purpose)) {
-      return new InvalidParamException('Only purposes are supported CRYPTO/PAYMENT_PROCESSING');
+      return new InvalidParamException('Invalid purpose');
     }
 
     if (

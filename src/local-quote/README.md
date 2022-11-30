@@ -16,7 +16,7 @@ This SDK allows partners to quote for their customers without reaching RemessaOn
 ``` typescript
 Direction = 'INBOUND' | 'OUTBOUND'
 
-Purpose = 'CRYPTO' | 'PAYMENT_PROCESSING'
+Purpose = 'CRYPTO' | 'PAYMENT_PROCESSING' | 'EFX_OWN_ACCOUNT_ABROAD' | 'EFX_UNILATERAL_TRANSFERS' | 'OTHER_TECHNICAL_SERVICES'
 
 CurrencyISO = 'USD' | 'BRL' | 'EUR' | 'AUD' | 'CHF'
 

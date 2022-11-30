@@ -33,7 +33,7 @@ describe('Validation', () => {
     const validation = new Validation();
     expect(
       validation.validate(quote)
-    ).toEqual(new InvalidParamException('Only purposes are supported CRYPTO/PAYMENT_PROCESSING'));
+    ).toEqual(new InvalidParamException('Invalid purpose'));
   });
 
   it('return an exception if the baseCurrencyISO is not supported', () => {
