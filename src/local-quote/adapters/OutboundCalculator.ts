@@ -31,14 +31,13 @@ export default class OutboundCalculator implements ICalculus {
 
   baseAmountCalculator(quote: Quote, amount: number, tax: number): AmountCalculator {
     const { exchangeRate, quotedCurrencyISO } = quote;
-    let totalBaseAmount = 0, taxBaseAmount = 0, exchangeRateAdjusted = exchangeRate;
+    let totalBaseAmount = 0, taxBaseAmount = 0;
 
     switch (quotedCurrencyISO) {
       case Currencies.BRL:
         const inverseFlow = this.inverseFlow(amount, exchangeRate, tax);
         totalBaseAmount = inverseFlow.totalBaseAmount;
         taxBaseAmount = inverseFlow.taxBaseAmount;
-        exchangeRateAdjusted = this.adjustExchangeRate(quote, inverseFlow.totalBaseAmount, amount, tax);
         break;
       default:
         const directFlow = this.directFlow(amount, exchangeRate, tax);
@@ -50,7 +49,7 @@ export default class OutboundCalculator implements ICalculus {
     return {
       totalBaseAmount,
       taxBaseAmount,
-      exchangeRate: exchangeRateAdjusted
+      exchangeRate
     }
   }
 
