@@ -130,31 +130,6 @@ const totalAmount = (amount / (1 + tax)) / exchangeRate;
 return totalAmount;
 ```
 
-After calculating the USD value it is necessary to find the new exchange-rate
-
----
-
-</br>
-
-How to calculate the exchange-rate
-
-``` typescript
-const spread = 0.005;
-const bankFee = 0;
-const fixedTaxAmount = 0;
-const totalPercentualTax = 0.0038;
-const totalReadjustedTax = 0;
-const spreadPrecision = spread + 1;
-const marketRate = (totalQuotedAmount - bankFee - fixedTaxAmount) /
-(amount * spreadPrecision * (1 + totalPercentualTax + totalReadjustedTax));
-
-const exchangeRate = marketRate * spreadPrecision;
-
-return exchangeRate;
-```
-
-</br>
-
 ---
 
 </br>
