@@ -72,6 +72,18 @@ const settings = Object.freeze({
         }
       }
     },
+    CAPITAL_INCREASE: {
+      INBOUND: {
+        IOF: {
+          value: 0.38
+        }
+      },
+      OUTBOUND: {
+        IOF: {
+          value: 0.38
+        }
+      }
+    },
     DEFAULT: {
       INBOUND: {
         IOF: {
