@@ -21,6 +21,12 @@ export enum Currencies {
   CHF = 'CHF'
 }
 
+export enum InternalCurrencies {
+  US1 = 'US1',
+  US2 = 'US2',
+  US3 = 'US3',
+}
+
 export type Quote = {
   id: string,
   direction: string,

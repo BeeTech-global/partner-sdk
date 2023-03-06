@@ -1,5 +1,5 @@
 import { InvalidParamException } from "../errors";
-import { Currencies, Direction, Purposes } from "../Quote";
+import { Currencies, Direction, InternalCurrencies, Purposes } from "../Quote";
 
 export interface IValidation {
   validate(input: any): Error | null
@@ -15,7 +15,7 @@ export default class Validation implements IValidation {
       direction
     } = input;
 
-    const currencies = Object.keys(Currencies);
+    const currencies = Object.keys(Currencies).concat(Object.keys(InternalCurrencies) )  ;
     const purposes = Object.keys(Purposes);
     const directions = Object.keys(Direction);
 
