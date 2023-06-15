@@ -87,12 +87,12 @@ const settings = Object.freeze({
     INVESTMENT: {
       INBOUND: {
         IOF: {
-          value: 0.38
+          value: 0
         }
       },
       OUTBOUND: {
         IOF: {
-          value: 0.38
+          value: 0
         }
       }
     },
