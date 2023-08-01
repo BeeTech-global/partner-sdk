@@ -44,7 +44,7 @@ const settings = Object.freeze({
       },
       OUTBOUND: {
         IOF: {
-          value: 0.38
+          value: 1.1
         }
       }
     },
