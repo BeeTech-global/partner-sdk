@@ -15,7 +15,7 @@ const settings = Object.freeze({
     PAYMENT_PROCESSING: {
       INBOUND: {
         IOF: {
-          value: 0.38
+          value: 0
         }
       },
       OUTBOUND: {
