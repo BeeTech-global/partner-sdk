@@ -24,6 +24,18 @@ const settings = Object.freeze({
         }
       }
     },
+    GAMBLING_AND_BETS: {
+      INBOUND: {
+        IOF: {
+          value: 0.38
+        }
+      },
+      OUTBOUND: {
+        IOF: {
+          value: 0.38
+        }
+      }
+    },
     COMEX: {
       INBOUND: {
         IOF: {
