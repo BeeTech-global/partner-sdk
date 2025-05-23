@@ -8,7 +8,7 @@ const settings = Object.freeze({
       },
       OUTBOUND: {
         IOF: {
-          value: 0.38
+          value: 3.5
         }
       }
     },
@@ -20,7 +20,7 @@ const settings = Object.freeze({
       },
       OUTBOUND: {
         IOF: {
-          value: 0.38
+          value: 3.5
         }
       }
     },
@@ -32,7 +32,7 @@ const settings = Object.freeze({
       },
       OUTBOUND: {
         IOF: {
-          value: 0.38
+          value: 3.5
         }
       }
     },
@@ -56,7 +56,7 @@ const settings = Object.freeze({
       },
       OUTBOUND: {
         IOF: {
-          value: 1.1
+          value: 3.5
         }
       }
     },
@@ -68,7 +68,7 @@ const settings = Object.freeze({
       },
       OUTBOUND: {
         IOF: {
-          value: 0.38
+          value: 3.5
         }
       }
     },
@@ -80,7 +80,7 @@ const settings = Object.freeze({
       },
       OUTBOUND: {
         IOF: {
-          value: 0.38
+          value: 3.5
         }
       }
     },
@@ -92,7 +92,7 @@ const settings = Object.freeze({
       },
       OUTBOUND: {
         IOF: {
-          value: 0.38
+          value: 3.5
         }
       }
     },
@@ -116,7 +116,7 @@ const settings = Object.freeze({
       },
       OUTBOUND: {
         IOF: {
-          value: 0.38
+          value: 3.5
         }
       }
     }
