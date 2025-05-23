@@ -69,6 +69,7 @@ describe('Local Quote Calculator', () => {
     expect(TaxCalculator.getTaxRate).toBeCalledWith(
       quote.purpose as Purposes,
       quote.direction as Direction,
+      false
     )
   })
 
