@@ -12,6 +12,18 @@ const settings = Object.freeze({
         }
       }
     },
+    CRYPTO_NUBANK: {
+      INBOUND: {
+        IOF: {
+          value: 0.38
+        }
+      },
+      OUTBOUND: {
+        IOF: {
+          value: 1.1
+        }
+      }
+    },
     PAYMENT_PROCESSING: {
       INBOUND: {
         IOF: {
