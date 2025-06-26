@@ -50,11 +50,11 @@ describe('Transaction Calculator', () => {
         .map((acceptedQuote) => acceptedQuote.totalBaseAmount)
         .reduce((current, next) => current + next, 0);
 
-      const tax = 0.035
+      const tax = 0.0038
       const totalAmountWithoutTax = Number((quotedAmountSum / (1 + tax)).toFixed(2))
       const exchangeRate = Number((totalAmountWithoutTax / totalBaseAmountSum).toFixed(10))
 
-      const expectedExchangeRate = 5.241563866600
+      const expectedExchangeRate = 5.241608978200
 
       expect(exchangeRate).toEqual(expectedExchangeRate);
     });
