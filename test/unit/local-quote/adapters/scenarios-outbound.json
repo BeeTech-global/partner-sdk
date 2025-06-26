@@ -2,7 +2,7 @@
   {
     "request": {
       "amount": 300,
-      "taxRate": 3.5,
+      "taxRate": 0.38,
       "quote": {
         "id": "quote_id",
         "direction": "OUTBOUND",
@@ -15,14 +15,14 @@
     },
     "expectedResponse": {
       "quotedAmount": 300,
-      "totalBaseAmount": 1664.49,
-      "taxBaseAmount": 56.29
+      "totalBaseAmount": 1614.31,
+      "taxBaseAmount": 6.11
     }
   },
   {
     "request": {
       "amount": 200,
-      "taxRate": 3.5,
+      "taxRate": 0.38,
       "quote": {
         "id": "quote_id",
         "direction": "OUTBOUND",
@@ -35,8 +35,8 @@
     },
     "expectedResponse": {
       "quotedAmount": 200,
-      "totalBaseAmount": 39.61,
-      "taxBaseAmount": 6.76
+      "totalBaseAmount": 40.84,
+      "taxBaseAmount": 0.76
     }
   }
 ]
