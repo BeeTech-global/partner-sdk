@@ -105,7 +105,7 @@ Examples:
 IOF tax rate is set at 0.38% of the value in BRL.
 
 ``` typescript
-const IOF = 0.0038;
+const IOF = 0.035;
 ```
 
 </br>
@@ -143,7 +143,7 @@ return totalAmount;
 IOF tax rate is set at 0% of the value.
 
 ``` typescript
-const IOF = 0.0038;
+const IOF = 0.035;
 ```
 
 </br>
@@ -180,7 +180,7 @@ How to calculate the exchange-rate
 const spread = 0.005;
 const bankFee = 0;
 const fixedTaxAmount = 0;
-const totalPercentualTax = 0.0038;
+const totalPercentualTax = 0.035;
 const totalReadjustedTax = 0;
 const spreadPrecision = 1 - spread;
 const marketRate = (amount + bankFee + fixedTaxAmount) /
